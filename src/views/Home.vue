@@ -1,10 +1,14 @@
 <template>
-  <div></div>
+  <div>
+    <Pusher/>
+  </div>
 </template>
 
 <script lang="ts">
+import Pusher from "../components/Pusher.vue";
 export default {
-  name: "Home",
+    name: "Home",
+    components: { Pusher }
 };
 </script>
 
