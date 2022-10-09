@@ -1,5 +1,6 @@
 <template>
-  <div id="nav">
+  <div id="nav" class="bg-gray-300 pb-5">
+    <h1 class="font-bold text-xl pt-5">Coin List</h1>
   </div>
   <router-view/>
 </template>
@@ -19,6 +20,5 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

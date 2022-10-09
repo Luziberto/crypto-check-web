@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "autoprefixer": "^9.8.8",
+    "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "laravel-echo": "^1.14.0",
     "postcss": "^7.0.39",
     "pusher-js": "^7.4.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
