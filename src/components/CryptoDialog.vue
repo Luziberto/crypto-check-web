@@ -1,0 +1,57 @@
+<template>
+  <div class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-50">
+      <div class="fixed inset-0 transition-opacity">
+          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+      <div class="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-4xl sm:w-full sm:p-6">
+          <div class="flex items-center justify-between text-xl font-bold">
+            <div class="flex items-center mx-auto">
+              <img class="w-12" :src="selectedAsset.image"/>  
+              <span class="px-2">
+                  {{selectedAsset.name}}
+              </span>
+            </div>  
+            
+              <button class="fill-current h-5 w-5 font-3xl font-bold">
+                  <span class="sr-only">Close</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+              </button>
+          </div>
+          <div class="flex items-center justify-center py-2 text-xl border-b font-bold">
+            <CryptoHistoryForm :assets="assets"/>
+            <div class="relative">
+                <div id="menuModal" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-40"
+                    role="menu" aria-orientation="vertical" aria-labelledby="mentor-menu">
+                    <div class="font-medium text-sm text-gray-500 text-center"> teste </div>
+                    <hr class="ml-2 mr-2">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Remove Mentor</a>
+                </div>
+            </div>
+          </div>
+          <div class="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          </div>
+      </div>
+    </div>
+</template>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import CryptoHistoryForm from '@/components/CryptoHistoryForm.vue';
+import { Asset } from '@/types/Asset';
+
+export default defineComponent({
+    components: { CryptoHistoryForm },
+    props: {
+        assets: {
+          required: true,
+          type: Array as PropType<Asset[]>
+        },
+        selectedAsset: {
+          required: true,
+          type: Object as PropType<Asset>
+        }
+    }
+})
+</script>
+

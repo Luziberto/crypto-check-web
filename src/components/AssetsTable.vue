@@ -7,7 +7,7 @@
             <thead class="min-w-full divide-y divide-gray-200">
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr class="cursor-pointer hover:bg-gray-100" v-for="asset in assetList" :key="`${asset.slug}`">
+              <tr class="cursor-pointer hover:bg-gray-100" @click="openModal(asset)" v-for="asset in assets" :key="`${asset.slug}`">
                 <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                   <div class="flex lg:justify-center">
                     <div class="flex justify-start w-36">
@@ -22,7 +22,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">{{
-                  formatCurrency(round(asset.price))
+                  formatCurrency(parseFloat((asset.price).toString()))
                 }}</td>
               </tr>
             </tbody>
@@ -44,7 +44,7 @@ export default defineComponent({
   props: {
     assets: {
       required: true,
-      type: Array as PropType<Asset[]>
+      type: Array as PropType<Asset[]> | null
     }
   },
   data () {
@@ -52,13 +52,13 @@ export default defineComponent({
       assetList: [] as Asset[]
     }
   },
+  methods: {
+    openModal (asset: Asset) {
+      this.$emit('openModal', asset)
+    }
+  },
   mounted () {
     this.assetList = this.assets
-  },
-  watch: {
-    assets (val) {
-      this.assetList = val
-    }
   }
 });
 </script>

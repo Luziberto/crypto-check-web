@@ -1,5 +1,4 @@
 import http from "@/plugins/axios";
-import { Asset } from "@/types/Asset";
 import RequestData from "@/types/Asset/RequestData";
 import ResponseData from "@/types/Asset/ResponseData";
 import {AxiosResponse} from 'axios';
@@ -13,9 +12,14 @@ class AssetDataService {
 //     return http.get(`/assets/${id}`);
 //   }
 
-searchAssets(data: RequestData): Promise<AxiosResponse> {
+getAssets(data: RequestData): Promise<AxiosResponse> {
   return http.post<ResponseData[]>("/assets", data);
 }
+
+getAssetHistory(uuid: string, date: Date): Promise<AxiosResponse> {
+  return http.get<ResponseData[]>(`/assets/${uuid}/history?date=${date}`);
+}
+
 
 //   update(id: any, data: any): Promise<any> {
 //     return http.put(`/assets/${id}`, data);

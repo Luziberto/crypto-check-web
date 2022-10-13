@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <AssetsTable :assets="assets" ref="assetTable"/>
+  <div class="flex flex-col">
+    <AssetsTable :assets="assets" @openModal="openModal" ref="assetTable"/>
+    <CryptoDialog v-if="dialog" :assets="assets" :selectedAsset="selectedAsset" @close="dialog = false" />
   </div>
 </template>
 
@@ -9,13 +10,14 @@
   import Pusher from 'pusher-js';
   import Echo from 'laravel-echo';
   import { defineComponent } from 'vue';
-  
+
   import AssetDataService from '@/services/AssetDataService';
   import { Asset } from '@/types/Asset';
   import AssetsTable from '@/components/AssetsTable.vue';
+  import CryptoDialog from '@/components/CryptoDialog.vue';
   
   export default defineComponent({
-    components: { AssetsTable },
+    components: { AssetsTable, CryptoDialog },
     setup() {
         const options = {
             broadcaster: "pusher",
@@ -32,9 +34,10 @@
     },
     data () {
       return {
-        newAsset: {} as Asset,
         assets: [] as Asset[],
-        assetsForShow: ["bitcoin", "ethereum", "cosmos hub", "terra", "dacxi", "dogecoin"]
+        assetsForShow: ["bitcoin", "ethereum", "cosmos hub", "terra", "dacxi", "dogecoin"],
+        selectedAsset: null as Asset | null,
+        dialog: false as boolean
       }
     },
     mounted() {
@@ -49,15 +52,19 @@
         const data = {
             assets: assets
         }
-        AssetDataService.searchAssets(data).then((response) => {
+        AssetDataService.getAssets(data).then((response) => {
             this.assets = response.data;
         });
       },
       updateAsset(asset: Asset) {
         const index = this.assets.findIndex(item => item.slug === asset.slug)
-        if (index) {
+        if (index >= 0) {
           this.assets[index].price = asset.price
         }
+      },
+      openModal(asset: Asset) {
+        this.selectedAsset = asset
+        this.dialog = true
       }
     }
 });
