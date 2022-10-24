@@ -1,3 +1,3 @@
 export default interface RequestData {
-    assets: Array<String>;
+    assets: Array<string>;
   }

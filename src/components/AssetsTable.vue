@@ -7,7 +7,7 @@
             <thead class="min-w-full divide-y divide-gray-200">
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr class="cursor-pointer hover:bg-gray-100" @click="openModal(asset)" v-for="asset in assets" :key="`${asset.slug}`">
+              <tr v-for="asset in props.assets" :key="`${asset.slug}`" class="cursor-pointer hover:bg-gray-100" @click="openModal(asset)">
                 <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                   <div class="flex lg:justify-center">
                     <div class="flex justify-start w-36">
@@ -22,7 +22,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">{{
-                  formatCurrency(parseFloat((asset.price).toString()))
+                  formatNumber(parseFloat((asset.price || 0).toString()))
                 }}</td>
               </tr>
             </tbody>
@@ -33,34 +33,29 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script lang="ts" setup>
+import { PropType } from 'vue'
 import { Asset } from '@/types/Asset';
-import { NumberUtils } from '@/mixins/Utils';
+import { formatCurrency } from '@/utils/NumberUtils';
 
-export default defineComponent({
-  name: 'AssetsTable',
-  mixins: [NumberUtils],
-  props: {
-    assets: {
-      required: true,
-      type: Array as PropType<Asset[]> | null
-    }
-  },
-  data () {
-    return {
-      assetList: [] as Asset[]
-    }
-  },
-  methods: {
-    openModal (asset: Asset) {
-      this.$emit('openModal', asset)
-    }
-  },
-  mounted () {
-    this.assetList = this.assets
+const props = defineProps({
+  assets: {
+    required: true,
+    type: Array as PropType<Asset[]>
   }
-});
+})
+
+// const assetList = ref<Asset[]>([])
+const formatNumber = formatCurrency
+
+const emit = defineEmits<{
+  (e: 'openModal', asset: Asset ): void
+}>()
+
+const openModal = (asset: Asset) => {
+  emit('openModal', asset)
+}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

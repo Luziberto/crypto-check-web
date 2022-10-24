@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
-    <AssetsTable :assets="assets" @openModal="openModal" ref="assetTable"/>
-    <CryptoDialog v-if="dialog" :assets="assets" :selectedAsset="selectedAsset" @close="dialog = false" />
+    <AssetsTable ref="assetTable" :assets="assets" @open-modal="openModal"/>
+    <CryptoDialog v-if="dialog" :assets="assets" :selected-asset="selectedAsset" @close="dialog = false" />
   </div>
 </template>
 
@@ -15,8 +15,9 @@
   import { Asset } from '@/types/Asset';
   import AssetsTable from '@/components/AssetsTable.vue';
   import CryptoDialog from '@/components/CryptoDialog.vue';
-  
+
   export default defineComponent({
+    name: 'HomePage',
     components: { AssetsTable, CryptoDialog },
     setup() {
         const options = {
@@ -35,8 +36,8 @@
     data () {
       return {
         assets: [] as Asset[],
-        assetsForShow: ["bitcoin", "ethereum", "cosmos hub", "terra", "dacxi", "dogecoin"],
-        selectedAsset: null as Asset | null,
+        assetsForShow: ["bitcoin", "cosmos hub", "dacxi", "dogecoin"],
+        selectedAsset: {} as Asset,
         dialog: false as boolean
       }
     },
@@ -48,7 +49,7 @@
         });
     },
     methods: {
-      getAssets(assets: Array<String>) {
+      getAssets(assets: Array<string>) {
         const data = {
             assets: assets
         }
@@ -68,7 +69,7 @@
       }
     }
 });
-    
+
   </script>
 
 <style scoped>
