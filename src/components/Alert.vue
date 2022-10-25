@@ -1,12 +1,12 @@
 <template>
-  <div v-if="!hide" role="alert">
+  <div v-if="!hide" class="absolute w-60 z-10 top-1 right-0 mr-2" role="alert">
     <div
-      class="{{!type ? 'bg-red-500' : 'bg-green-500'}} text-white font-bold rounded-t px-4 py-2"
+      :class="`${!type ? 'bg-red-500' : 'bg-green-500'} text-white font-bold rounded-t px-4 py-2`"
     >
-      Request Error
+      {{!type ? 'Request Error' : 'Request Success'}}
     </div>
     <div
-      class="border border-t-0 px-4 py-3 rounded-b {{!type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'}}"
+    :class="`border border-t-0 px-4 py-3 rounded-b ${!type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'}`"
     >
       <ul>
         <li v-for="(message, index) in messages" :key="`error-${index}`">
@@ -16,7 +16,7 @@
     </div>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
       <svg
-        class="fill-current h-6 w-6 {{!type ? 'text-red-500' : 'text-green-500'}}"
+        :class="`fill-current h-6 w-6 ${!type ? 'text-red-500' : 'text-green-500'}`"
         role="button"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -30,32 +30,25 @@
   </div>
 </template>
 
-  <script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'AlertPopup',
-  data() {
-    return {
-      date: new Date() as Date,
-      hide: true as boolean,
-      messages: [] as Array<string>,
-      type: 1 as number,
-      types: {
-        ERROR: 0,
-        SUCCESS: 1,
-      } as any,
-    }
-  },
-  methods: {
-    show(messages: Array<string>, type?: string) {
-      this.messages = messages
-      const alertType = type
-        ? this.types[type as keyof any]
-        : this.types['SUCCESS' as keyof any]
-      this.type = Number(alertType)
-      this.hide = false
-    },
-  },
+const hide = ref(true as boolean)
+const messages = ref([] as Array<string>)
+const type = ref(1 as number)
+
+const types = { ERROR: 0, SUCCESS: 1 } as any
+
+const show = (messagesForShow: Array<string>, typeSlug?: string) => {
+  messages.value = messagesForShow
+  const alertType = typeSlug ? types[typeSlug as keyof any] : types['SUCCESS' as keyof any]
+  type.value = Number(alertType)
+  hide.value = false
+  setTimeout(() => {
+    hide.value = true
+  }, 5000);
+}
+defineExpose({
+  show
 })
 </script>

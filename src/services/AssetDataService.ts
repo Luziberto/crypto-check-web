@@ -2,6 +2,7 @@ import http from "@/plugins/axios";
 import RequestData from "@/types/Asset/RequestData";
 import ResponseData from "@/types/Asset/ResponseData";
 import {AxiosResponse} from 'axios';
+import AssetJson from '@/assets/assets.json'
 
 class AssetDataService {
   // getAll(): Promise<any> {
@@ -14,6 +15,10 @@ class AssetDataService {
 
 getAssets(data: RequestData): Promise<AxiosResponse> {
   return http.post<ResponseData[]>("/assets", data);
+}
+
+getAllAssets(page: number, itemsPerPage: number): Promise<AxiosResponse> {
+  return http.post<ResponseData[]>("/assets", { assets: AssetJson.slice((page - 1) * itemsPerPage, page * itemsPerPage) });
 }
 
 getAssetHistory(uuid: string, date: Date): Promise<AxiosResponse> {
