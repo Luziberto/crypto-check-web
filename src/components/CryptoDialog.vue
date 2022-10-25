@@ -63,7 +63,7 @@ id="menuModal" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded
 
 <script lang="ts" setup>
 import { ref, PropType } from 'vue'
-// import CryptoHistoryForm from '@/components/CryptoHistoryForm.vue';
+import CryptoHistoryForm from '@/components/CryptoHistoryForm.vue';
 import { Asset } from '@/types/Asset';
 import { AssetHistory } from '@/types/AssetHistory';
 import { formatCurrency } from '@/utils/NumberUtils';
