@@ -44,6 +44,14 @@ import { reactive } from 'vue';
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
 
+const emit = defineEmits<{
+  (e: 'openModal', asset: Asset ): void
+}>()
+
+const openModal = (asset: Asset) => {
+  emit('openModal', asset)
+}
+
 const pushAssets = (newAssets: Asset[]) => {
   assets.push(...newAssets)
 }
