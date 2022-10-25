@@ -13,6 +13,7 @@
 
   import AssetDataService from '@/services/AssetDataService';
   import { Asset } from '@/types/Asset';
+  import { ASSET_SLUG } from '@/constants/AssetsConstants';
   import AssetsTable from '@/components/AssetsTable.vue';
   import CryptoDialog from '@/components/CryptoDialog.vue';
 
@@ -36,7 +37,14 @@
     data () {
       return {
         assets: [] as Asset[],
-        assetsForShow: ["bitcoin", "cosmos hub", "dacxi", "dogecoin"],
+        assetsForShow: [
+          ASSET_SLUG.BITCOIN,
+          ASSET_SLUG.ETHEREUM,
+          ASSET_SLUG.COSMOS_HUB,
+          ASSET_SLUG.TERRA,
+          ASSET_SLUG.DACXI,
+          ASSET_SLUG.DOGECOIN
+        ] as Array<string>,
         selectedAsset: {} as Asset,
         dialog: false as boolean
       }
