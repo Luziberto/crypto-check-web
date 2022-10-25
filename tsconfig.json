@@ -12,6 +12,7 @@
     "jsx": "preserve",
     "sourceMap": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["src/*"]
     },
