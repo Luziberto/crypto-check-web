@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
 import router from "./router";
-import Alert from '@/components/Alert.vue';
+import Alert from '@/components/global/Alert.vue';
 
 const app = createApp(App);
 

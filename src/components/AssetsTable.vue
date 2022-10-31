@@ -37,7 +37,7 @@
 import { Asset } from '@/types/Asset';
 import { formatCurrency } from '@/utils/NumberUtils';
 import AssetListObserver from '@/components/AssetsListObserver.vue'
-import Loading from '@/components/Loading.vue'
+import Loading from '@/components/global/Loading.vue'
 import { ref, reactive } from 'vue';
 
 // const assetList = ref<Asset[]>([])
