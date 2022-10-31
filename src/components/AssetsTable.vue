@@ -23,10 +23,10 @@
                   formatNumber(parseFloat((asset.price || 0).toString()))
                 }}</td>
               </tr>
-              <AssetListObserver @moreData="pushAssets" />
+              <AssetListObserver v-if="!disableInfiniteScroll" @moreData="pushAssets" />
             </tbody>
           </table>
-          <Loading/>
+          <Loading v-show="!disableInfiniteScroll"/>
         </div>
       </div>
     </div>
@@ -38,11 +38,12 @@ import { Asset } from '@/types/Asset';
 import { formatCurrency } from '@/utils/NumberUtils';
 import AssetListObserver from '@/components/AssetsListObserver.vue'
 import Loading from '@/components/Loading.vue'
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
 // const assetList = ref<Asset[]>([])
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
+const disableInfiniteScroll = ref<boolean>(false)
 
 const emit = defineEmits<{
   (e: 'openModal', asset: Asset ): void
@@ -55,6 +56,14 @@ const openModal = (asset: Asset) => {
 const pushAssets = (newAssets: Asset[]) => {
   assets.push(...newAssets)
 }
+
+const refreshAssets = (newAssets: Asset[]) => {
+  disableInfiniteScroll.value = true
+  assets.splice(0,assets.length)
+  pushAssets(newAssets)
+}
+
+defineExpose({ refreshAssets, disableInfiniteScroll })
 
 </script>
 

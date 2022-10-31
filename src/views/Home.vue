@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col">
+    <AlertPopup ref="alert" />
+    <div class="grid grid-cols-12">
+      <div class="flex col-start-11 col-end-13 m-2 justify-end">
+        <div class="text-left pb-2">
+          <label for="search" class="font-bold">Busca </label>
+          <input v-model="search" @keyup="searchAssets" name="search" type="text" class="block w-full py-1 pl-2 pr-10 mt-1 text-sm font-bold placeholder-gray-400 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-green-500 focus:border-green-500 ring-2"/>
+        </div>
+      </div>
+    </div>
+
     <AssetsTable ref="assetTable" @open-modal="openModal"/>
     <CryptoDialog v-if="dialog" :assets="assets" :selected-asset="selectedAsset" @close="dialog = false" />
   </div>
@@ -9,16 +19,37 @@
 
 import Pusher from 'pusher-js';
 import Echo from 'laravel-echo';
-import { ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { Asset } from '@/types/Asset';
 // import { ASSET_SLUG } from '@/constants/AssetsConstants';
 import AssetsTable from '@/components/AssetsTable.vue';
 import CryptoDialog from '@/components/CryptoDialog.vue';
+import { ALERT_TYPES } from '@/constants/AlertConstants';
+import AssetDataService from '@/services/AssetDataService';
 
-  const assets = ref([] as Asset[])
-  const selectedAsset = ref({} as Asset)
-  const dialog = ref(false as boolean)
+const assets = ref([] as Asset[])
+let selectedAsset = reactive({} as Asset)
+const dialog = ref(false as boolean)
+const search = ref<string>('');
+const assetTable = ref() as any;
+const alert = ref() as any;
 
+const changeNameAsset = computed(() => {
+  return search.value
+})
+
+const searchAssets = () => {
+
+  if (search.value.length < 3) {
+    return
+  }
+
+  AssetDataService.searchAssets({ search: search.value }).then((response) => {
+    assetTable.value.refreshAssets(response.data, search.value)
+  }).catch((e) => {
+    alert.show(e.response.data, ALERT_TYPES.error)
+  });
+}
 
   // const assetsForShow = [
   //   ASSET_SLUG.BITCOIN,
@@ -39,7 +70,7 @@ import CryptoDialog from '@/components/CryptoDialog.vue';
       client: new Pusher(options.key, options)
   });
 
-  const updateAsset = (asset: Asset) => {
+  const updateAssets = (asset: Asset) => {
     const index = assets.value.findIndex(item => item.slug === asset.slug)
     if (index >= 0) {
       assets.value[index].price = asset.price
@@ -47,9 +78,10 @@ import CryptoDialog from '@/components/CryptoDialog.vue';
   }
 
   const openModal = (asset: Asset) => {
-    selectedAsset.value = asset
+    selectedAsset = asset
     dialog.value = true
   }
+
 
   // const getAssets = (assetsForShow: Array<string>) => {
   //   const data = {
@@ -70,7 +102,7 @@ import CryptoDialog from '@/components/CryptoDialog.vue';
   // }
 
   // getAssets(assetsForShow)
-  echo.channel("coingecko").listen(".asset_event", (data: any) => { updateAsset(data.asset) })
+  echo.channel("coingecko").listen(".asset_event", (data: any) => { updateAssets(data.asset) })
 
   </script>
 

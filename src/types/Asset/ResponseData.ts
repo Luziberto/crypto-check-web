@@ -1,4 +1,4 @@
-export default interface ResponseData {
+export interface GetAssetsResponseData {
   name: string,
   slug: string,
   symbol: string,

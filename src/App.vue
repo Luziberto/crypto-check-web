@@ -1,16 +1,23 @@
 <template>
-  <div id="nav" class="bg-gray-300 pb-5">
-    <h1 class="font-bold text-xl pt-5">Coin List</h1>
+  <div id="nav" class="flex items-center justify-center bg-gray-300">
+    <div class="flex flex-items-center">
+      <Coin :width="32"/>
+      <h1 class="flex-1 font-bold text-xl py-5">Coin List</h1>
+      <!-- <div class="mt-auto mr-2 text-left">
+
+      </div> -->
+    </div>
+
   </div>
   <router-view/>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import Coin from '@/assets/svg/coin.vue';
 
-export default defineComponent({
-  name: 'App'
-});
+// export default defineComponent({
+//   name: 'App'
+// });
 </script>
 
 <style>
