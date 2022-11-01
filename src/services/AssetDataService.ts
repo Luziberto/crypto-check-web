@@ -25,7 +25,7 @@ getAllAssets(page: number, itemsPerPage: number): Promise<AxiosResponse> {
   return http.post<GetAssetsResponseData[]>("/assets", { assets: AssetJson.slice((page - 1) * itemsPerPage, page * itemsPerPage) });
 }
 
-getAssetHistory(uuid: string, date: Date): Promise<AxiosResponse> {
+getAssetHistory(uuid: string, date: string): Promise<AxiosResponse> {
   return http.get<GetAssetsResponseData[]>(`/assets/${uuid}/history?date=${date}`);
 }
 

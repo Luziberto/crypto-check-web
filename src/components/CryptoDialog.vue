@@ -103,7 +103,7 @@ import { Asset } from '@/types/Asset';
 import { AssetHistory } from '@/types/AssetHistory';
 import { formatCurrency } from '@/utils/NumberUtils';
 
-const props = defineProps<{
+defineProps<{
   selectedAsset: Asset
 }>()
 
@@ -112,8 +112,6 @@ const emit = defineEmits<{
   (e: 'error', errors: unknown[]): void
 }>()
 
-console.log('props.selectedAsset')
-console.log(props.selectedAsset)
 const assetHistory = ref<AssetHistory>({} as AssetHistory)
 
 const showAssetHistory = (history: AssetHistory) => {

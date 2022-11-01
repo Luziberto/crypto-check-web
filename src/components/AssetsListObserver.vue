@@ -33,8 +33,6 @@ const getData = (): void => {
     options.page++
     options.itemsPerPage++
   }).catch((e) => {
-
-    console.log(e)
     let message = [e.message]
     if (e.response) {
       message = Object.values(e.response.data).flat()

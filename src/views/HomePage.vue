@@ -79,7 +79,6 @@ const openModal = (asset: Asset) => {
 }
 
 const error = (errors: unknown[]) => {
-  console.log(errors)
   alert.value?.show(errors.map(String), ALERT_TYPES.error)
 }
 

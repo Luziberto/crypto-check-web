@@ -77,14 +77,10 @@ const echo = new Echo({
   client: new Pusher(options.key, options)
 });
 
-echo.channel("coingecko").listen(".asset_event", (data: { asset: Asset }) => { updateAssets(data.asset) })
-
 const updateAssets = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
-  console.log(index)
   if (index >= 0) {
     assets[index].price = asset.price
-    console.log('entrou')
   }
 }
 
@@ -95,6 +91,13 @@ const openModal = (asset: Asset) => {
 
 const pushAssets = (newAssets: Asset[]) => {
   assets.push(...newAssets)
+  subscribeAssets(newAssets)
+}
+
+const subscribeAssets = (newAssets: Asset[]) => {
+  newAssets.forEach(newAsset => {
+    echo.channel("coingecko").listen(`.asset_event_${newAsset.slug}`, (data: { asset: Asset }) => { updateAssets(data.asset) })
+  });
 }
 
 const refreshAssets = (newAssets: Asset[]) => {
