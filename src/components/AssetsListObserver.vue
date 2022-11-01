@@ -20,7 +20,7 @@ import { ALERT_TYPES } from '@/constants/AlertConstants';
 interface Options { page: number, itemsPerPage: number }
 
 const loading = ref<boolean>(true)
-const options = reactive<Options>({ page: 1, itemsPerPage: 50 })
+const options = reactive<Options>({ page: 1, itemsPerPage: 10 })
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
 const getData = (): void => {
