@@ -1,15 +1,20 @@
 <template>
-  <div v-if="!hide" class="absolute w-60 z-10 top-1 right-0 mr-2" role="alert">
-    <div
-      :class="`${!type ? 'bg-red-500' : 'bg-green-500'} text-white font-bold rounded-t px-4 py-2`"
-    >
-      {{!type ? 'Request Error' : 'Request Success'}}
+  <div
+    v-if="!hide"
+    class="absolute w-60 z-10 top-1 right-0 mr-2"
+    role="alert"
+  >
+    <div :class="`${!type ? 'bg-red-500' : 'bg-green-500'} text-white font-bold rounded-t px-4 py-2`">
+      {{ !type ? 'Request Error' : 'Request Success' }}
     </div>
     <div
-    :class="`border border-t-0 px-4 py-3 rounded-b ${!type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'}`"
+      :class="`border border-t-0 px-4 py-3 rounded-b ${!type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'}`"
     >
       <ul>
-        <li v-for="(message, index) in messages" :key="`error-${index}`">
+        <li
+          v-for="(message, index) in messages"
+          :key="`error-${index}`"
+        >
           <p>{{ message }}</p>
         </li>
       </ul>
@@ -37,12 +42,17 @@ const hide = ref(true as boolean)
 const messages = ref([] as Array<string>)
 const type = ref(1 as number)
 
-const types = { ERROR: 0, SUCCESS: 1 } as any
+interface Type {
+  ERROR: number,
+  SUCCESS: number
+}
+
+const types: Type = { ERROR: 0, SUCCESS: 1 }
 
 const show = (messagesForShow: Array<string>, typeSlug?: string) => {
   messages.value = messagesForShow
-  const alertType = typeSlug ? types[typeSlug as keyof any] : types['SUCCESS' as keyof any]
-  type.value = Number(alertType)
+  const alertType = typeSlug ? types[typeSlug as keyof Type] : types['SUCCESS' as keyof Type]
+  type.value = alertType
   hide.value = false
   setTimeout(() => {
     hide.value = true

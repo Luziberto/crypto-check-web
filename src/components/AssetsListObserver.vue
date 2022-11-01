@@ -1,7 +1,11 @@
 <template>
   <div>
-    <AlertPopup ref="alert"/>
-    <ObserverComponent v-show="!loading" :options="options" @intersect="getData"/>
+    <Alert ref="alert" />
+    <ObserverComponent
+      v-show="!loading"
+      :options="options"
+      @intersect="getData"
+    />
   </div>
 </template>
 
@@ -9,16 +13,17 @@
 import { ref, reactive, onMounted } from 'vue';
 import AssetDataService from '@/services/AssetDataService';
 import ObserverComponent from '@/components/ObserverComponent.vue';
+import Alert from '@/components/global/AlertPopup.vue';
 import { Asset } from '@/types/Asset';
 import { ALERT_TYPES } from '@/constants/AlertConstants';
 
 interface Options { page: number, itemsPerPage: number }
 
-const loading = ref(true)
+const loading = ref<boolean>(true)
 const options = reactive<Options>({ page: 1, itemsPerPage: 50 })
-const alert = ref(null as any)
+const alert = ref<InstanceType<typeof Alert> | null>(null)
 
-const getData = () : void => {
+const getData = (): void => {
   AssetDataService.getAllAssets(options.page, options.itemsPerPage).then((response) => {
     const responseData = response.data
     if (!responseData.length) {
@@ -28,19 +33,21 @@ const getData = () : void => {
     options.page++
     options.itemsPerPage++
   }).catch((e) => {
+
+    console.log(e)
     let message = [e.message]
     if (e.response) {
       message = Object.values(e.response.data).flat()
     }
-    alert.value.show(message, ALERT_TYPES.error)
+    alert.value?.show(message, ALERT_TYPES.error)
   })
-  .finally(() => {
-    loading.value = false
-  })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 const emit = defineEmits<{
-  (e: 'moreData', assets: Asset[] ): void
+  (e: 'moreData', assets: Asset[]): void
 }>()
 
 onMounted(() => {

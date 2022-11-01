@@ -7,26 +7,41 @@
             <thead class="min-w-full divide-y divide-gray-200">
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 grid lg:grid-cols-2">
-              <tr v-for="asset in assets" :key="`${asset.slug}`" class="flex items-center justify-between cursor-pointer hover:bg-gray-100" @click="openModal(asset)">
+              <tr
+                v-for="asset in assets"
+                :key="`${asset.slug}`"
+                class="flex items-center justify-between cursor-pointer hover:bg-gray-100"
+                @click="openModal(asset)"
+              >
                 <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap flex-1">
                   <div class="flex justify-start">
-                    <img class="w-12 h-12 rounded-full" :src="asset.image" alt="">
-                    <span class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
-                      {{asset.name}}
+                    <img
+                      class="w-12 h-12 rounded-full"
+                      :src="asset.image"
+                      alt=""
+                    >
+                    <span
+                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+                    >
+                      {{ asset.name }}
                       <span class="text-sm text-gray-400">
-                        {{asset.symbol.toUpperCase()}}
+                        {{ asset.symbol.toUpperCase() }}
                       </span>
                     </span>
                   </div>
                 </td>
-                <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">{{
-                  formatNumber(parseFloat((asset.price || 0).toString()))
-                }}</td>
+                <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
+                  {{
+                      formatNumber(parseFloat((asset.price || 0).toString()))
+                  }}</td>
               </tr>
-              <AssetListObserver v-if="!disableInfiniteScroll" @moreData="pushAssets" />
+              <AssetListObserver
+                v-if="!disableInfiniteScroll"
+                @more-data="pushAssets"
+              />
             </tbody>
           </table>
-          <Loading v-show="!disableInfiniteScroll"/>
+          <Loading v-show="!disableInfiniteScroll" />
         </div>
       </div>
     </div>
@@ -34,20 +49,45 @@
 </template>
 
 <script lang="ts" setup>
+
+import Pusher from 'pusher-js';
+import Echo from 'laravel-echo';
 import { Asset } from '@/types/Asset';
 import { formatCurrency } from '@/utils/NumberUtils';
 import AssetListObserver from '@/components/AssetsListObserver.vue'
-import Loading from '@/components/global/Loading.vue'
+import Loading from '@/components/global/LoadingSpin.vue'
 import { ref, reactive } from 'vue';
 
-// const assetList = ref<Asset[]>([])
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
 const disableInfiniteScroll = ref<boolean>(false)
 
 const emit = defineEmits<{
-  (e: 'openModal', asset: Asset ): void
+  (e: 'openModal', asset: Asset): void
 }>()
+
+const options = {
+  broadcaster: "pusher",
+  key: import.meta.env.VITE_PUSH_KEY,
+  cluster: "sa1"
+};
+
+const echo = new Echo({
+  ...options,
+  client: new Pusher(options.key, options)
+});
+
+echo.channel("coingecko").listen(".asset_event", (data: { asset: Asset }) => { updateAssets(data.asset) })
+
+const updateAssets = (asset: Asset) => {
+  const index = assets.findIndex(item => item.slug === asset.slug)
+  console.log(index)
+  if (index >= 0) {
+    assets[index].price = asset.price
+    console.log('entrou')
+  }
+}
+
 
 const openModal = (asset: Asset) => {
   emit('openModal', asset)
@@ -59,28 +99,10 @@ const pushAssets = (newAssets: Asset[]) => {
 
 const refreshAssets = (newAssets: Asset[]) => {
   disableInfiniteScroll.value = true
-  assets.splice(0,assets.length)
+  assets.splice(0, assets.length)
   pushAssets(newAssets)
 }
 
 defineExpose({ refreshAssets, disableInfiniteScroll })
 
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-/* a {
-  color: #42b983;
-} */
-</style>
