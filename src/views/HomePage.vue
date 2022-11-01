@@ -25,7 +25,6 @@
     />
     <CryptoDialog
       v-if="dialog"
-      :assets="assets"
       :selected-asset="selectedAsset"
       @close="dialog = false"
       @error="error"

@@ -104,7 +104,6 @@ import { AssetHistory } from '@/types/AssetHistory';
 import { formatCurrency } from '@/utils/NumberUtils';
 
 const props = defineProps<{
-  assets: Asset[],
   selectedAsset: Asset
 }>()
 
