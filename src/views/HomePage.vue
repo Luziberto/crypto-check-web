@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <div class="grid grid-cols-12">
-      <div class="flex col-start-11 col-end-13 m-2 justify-end">
+    <div class="flex justify-end md:grid md:grid-cols-12">
+      <div class="flex md:col-start-11 md:col-end-13 m-2 justify-end">
         <div class="text-left pb-2">
           <label
             for="search"
