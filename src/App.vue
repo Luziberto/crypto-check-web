@@ -1,8 +1,13 @@
 <template>
-  <div id="nav" class="flex items-center justify-center bg-gray-300">
-    <div class="flex flex-items-center">
-      <Coin :width="32" />
-      <h1 class="flex-1 font-bold text-xl py-5">Coin List</h1>
+  <div
+    id="nav"
+    class="flex items-center justify-center bg-gray-300 py-5"
+  >
+    <div class="flex justify-center flex-items-center">
+      <a href="https://matias.ma/nsfw">
+        <Coin :width="32" />
+      </a>
+      <h1 class="flex-1 font-bold text-xl">Coin List</h1>
       <!-- <div class="mt-auto mr-2 text-left">
 
       </div> -->

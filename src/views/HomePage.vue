@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Asset } from '@/types/Asset';
 import AssetsTable from '@/components/AssetsTable.vue';
 import CryptoDialog from '@/components/CryptoDialog.vue';
@@ -82,6 +82,9 @@ const error = (errors: unknown[]) => {
   alert.value?.show(errors.map(String), ALERT_TYPES.error)
 }
 
+onMounted(() => {
+  searchAssets()
+})
 
 </script>
 
