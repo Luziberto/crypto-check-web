@@ -16,6 +16,8 @@ import ObserverComponent from '@/components/ObserverComponent.vue';
 import Alert from '@/components/global/AlertPopup.vue';
 import { Asset } from '@/types/Asset';
 import { ALERT_TYPES } from '@/constants/AlertConstants';
+import AssetJson from '@/assets/assets.json'
+import { GetAssetsRequestData } from '@/types/Asset/RequestData';
 
 interface Options { page: number, itemsPerPage: number }
 
@@ -24,7 +26,20 @@ const options = reactive<Options>({ page: 1, itemsPerPage: 10 })
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
 const getData = (): void => {
-  AssetDataService.getAllAssets(options.page, options.itemsPerPage).then((response) => {
+  const start = (options.page - 1) * options.itemsPerPage
+  const end = options.page * options.itemsPerPage
+  const assetsSlug = AssetJson.sort((a, b) => a.localeCompare(b))
+  const items = assetsSlug.slice(start, end)
+
+  if (!items.length) {
+    return
+  }
+
+  const body: GetAssetsRequestData = {
+    assets: items
+  }
+
+  AssetDataService.getAssets(body).then((response) => {
     const responseData = response.data
     if (!responseData.length) {
       loading.value = false
