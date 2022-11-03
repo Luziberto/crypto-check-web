@@ -3,6 +3,6 @@ export interface Asset {
     name: string,
     slug: string,
     symbol: string,
-    price: number,
+    price: string,
     image: string
 }

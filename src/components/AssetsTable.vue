@@ -32,7 +32,7 @@
                 </td>
                 <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
                   {{
-                      formatNumber(parseFloat((asset.price || 0).toString()))
+                      formatNumber(Number(asset.price) || 0)
                   }}</td>
               </tr>
               <AssetListObserver
