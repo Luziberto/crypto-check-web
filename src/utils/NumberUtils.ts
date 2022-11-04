@@ -11,7 +11,7 @@ export const getExponencialNumber = (value: number, config: Currency): string =>
     const expIndex = value.toString().indexOf("e")
     const zeros = "0".repeat(Number(value.toString().charAt(expIndex + 2)))
     const numberPart = value.toString().substring(0, expIndex).replace(".", "")
-    return "R$ " + zeros.charAt(0) + config.FLOAT_SEPARATOR + zeros.substring(1, expIndex) + numberPart
+    return config.FIAT_SYMBOL + ' ' + zeros.charAt(0) + config.FLOAT_SEPARATOR + zeros.substring(1, expIndex) + numberPart
 }
 
 export const isExpNumber = (value: number): boolean => {
@@ -25,9 +25,9 @@ export const getFloatPointLength = (value: number): number => {
 export const convertToCurrency = (value: number, config: Currency): string => {
   const decimalDigits = getFloatPointLength(value)
   if (decimalDigits > 20) {
-    return "R$ " + value.toString().replace(".", config.FLOAT_SEPARATOR)
+    return config.FIAT_SYMBOL + ' ' + value.toString().replace(".", config.FLOAT_SEPARATOR)
   }
-  return value.toLocaleString(config.LOCALE, { minimumFractionDigits: decimalDigits, style: "currency", currency: config.FIAT_NAME })
+  return value.toLocaleString(config.LOCALE, { minimumFractionDigits: decimalDigits, style: "currency", currency: config.FIAT_NAME.toUpperCase() })
 }
 
 

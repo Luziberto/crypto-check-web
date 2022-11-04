@@ -32,7 +32,7 @@ import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
 
 const localeStore = useLocaleStore()
-const { currency, locale } = storeToRefs(localeStore)
+const { locale } = storeToRefs(localeStore)
 
 defineProps<{
   width: number
@@ -40,7 +40,6 @@ defineProps<{
 
 const changeLocale = (locale: string) => {
   localeStore.changeLocale(locale)
-  console.log(currency.value)
 }
 </script>
 

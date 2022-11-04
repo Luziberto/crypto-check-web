@@ -19,7 +19,7 @@ export interface Translate {
 
 export enum PT_BR_CURRENCY {
   FIAT_SYMBOL = "R$",
-  FIAT_NAME = "BRL",
+  FIAT_NAME = "brl",
   FLOAT_SEPARATOR = ",",
   THOUSAND_SEPARATOR = ".",
   LOCALE = "pt-BR"
@@ -27,7 +27,7 @@ export enum PT_BR_CURRENCY {
 
 export enum EN_US_CURRENCY {
   FIAT_SYMBOL = "$",
-  FIAT_NAME = "USD",
+  FIAT_NAME = "usd",
   FLOAT_SEPARATOR = ",",
   THOUSAND_SEPARATOR = ".",
   LOCALE = "en-US"
@@ -46,7 +46,7 @@ export enum EN_US_TRANSLATE {
 }
 
 export function getCurrency(locale: string) : Currency {
-  if (locale === USD) {
+  if (locale === EN_US) {
     return EN_US_CURRENCY
   } else {
     return PT_BR_CURRENCY

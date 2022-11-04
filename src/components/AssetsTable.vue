@@ -41,7 +41,9 @@
                 class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
               >
                 <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                <span class="w-40">{{ formatNumber(Number(asset.price) || 0, currency) }}</span>
+                <span class="w-40">{{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
+                    keyof Asset]) || 0, currency)
+                }}</span>
               </td>
             </tr>
           </tbody>
@@ -79,7 +81,9 @@
               <div class="flex justify-between pt-2">
                 <span class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                  {{ formatNumber(Number(asset.price) || 0, currency) }}
+                  {{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset]) ||
+                      0, currency)
+                  }}
                 </span>
                 <span class="flex flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">24h</span>
@@ -99,6 +103,7 @@
         />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -141,7 +146,8 @@ const echo = new Echo({
 const updateAssets = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
   if (index >= 0) {
-    assets[index].price = asset.price
+    assets[index].price_brl = asset.price_brl
+    assets[index].price_usd = asset.price_usd
   }
 }
 

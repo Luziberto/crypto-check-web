@@ -77,16 +77,20 @@
               </th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody
+            v-if="Object.keys(assetHistory).length"
+            class="bg-white divide-y divide-gray-200"
+          >
             <tr
-              v-if="Object.keys(assetHistory).length"
+              v-for="(market_data, key) in assetHistory.market_data"
+              :key="`asset-history-${key}`"
               class="cursor-pointer hover:bg-gray-100"
             >
               <td class="text-center w-1/2 px-1 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {{ formatNumber(assetHistory.market_data.price, currency) }}
+                {{ formatNumber(Number(market_data.price), getCurrency(market_data.fiat)) }}
               </td>
               <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {{ formatNumber(assetHistory.market_data.total_volume, currency) }}
+                {{ formatNumber(Number(market_data.total_volume), getCurrency(market_data.fiat)) }}
               </td>
             </tr>
           </tbody>
@@ -102,11 +106,7 @@ import CryptoHistoryForm from "@/components/CryptoHistoryForm.vue"
 import { Asset } from "@/types/Asset"
 import { AssetHistory } from "@/types/AssetHistory"
 import { formatCurrency } from "@/utils/NumberUtils"
-import { useLocaleStore } from "@/store/locale"
-import { storeToRefs } from "pinia"
-
-const localeStore = useLocaleStore()
-const { currency } = storeToRefs(localeStore)
+import { getCurrency } from "@/constants/LocaleConstants"
 
 defineProps<{
   selectedAsset: Asset

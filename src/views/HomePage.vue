@@ -56,7 +56,8 @@ const selectedAsset = ref<Asset>({
   name: "",
   slug: "",
   symbol: "",
-  price: "0",
+  price_brl: "0",
+  price_usd: "0",
   image: ""
 } as Asset)
 

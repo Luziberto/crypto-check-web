@@ -28,7 +28,6 @@ export const useLocaleStore = defineStore("locale", {
       this.locale = locale
       this.currency = getCurrency(locale)
       this.translate = getTranslate(locale)
-      console.log(locale)
     }
   }
 })
