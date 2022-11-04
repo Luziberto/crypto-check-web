@@ -1,20 +1,17 @@
-export const formatCurrency = (value: number): string => {
-  let number = ''
-  if (isExpNumber(value)) {
-    number = getExponencialNumber(value)
-  } else {
-    const decimalDigits = getFloatPointLength(value)
-    number = value.toLocaleString('pt-BR', { minimumFractionDigits: decimalDigits, style: 'currency', currency: 'BRL' })
-  }
+import { BRL_CURRENCY } from "@/constants/CurrencyConstants";
 
-  return number;
+export const formatCurrency = (value: number): string => {
+  if (isExpNumber(value)) {
+    return getExponencialNumber(value)
+  }
+  return convertToCurrency(value);
 }
 
 export const getExponencialNumber = (value: number): string => {
     const expIndex = value.toString().indexOf('e')
     const zeros = '0'.repeat(Number(value.toString().charAt(expIndex + 2)))
-    const numberPart = value.toString().substring(0, expIndex).replace('.', '')
-    return 'R$ ' + zeros.charAt(0) + ',' + zeros.substring(1, expIndex) + numberPart
+    const numberPart = value.toString().substring(0, expIndex).replace('.', BRL_CURRENCY.FLOAT_SEPARATOR)
+    return 'R$ ' + zeros.charAt(0) + BRL_CURRENCY.FIAT_SYMBOL + zeros.substring(1, expIndex) + numberPart
 }
 
 export const isExpNumber = (value: number): boolean => {
@@ -23,6 +20,14 @@ export const isExpNumber = (value: number): boolean => {
 
 export const getFloatPointLength = (value: number): number => {
   return value && value.toString().split('.')[1] ? value.toString().split('.')[1].length : 2
+}
+
+export const convertToCurrency = (value: number): string => {
+  const decimalDigits = getFloatPointLength(value)
+  if (decimalDigits > 20) {
+    return 'R$ ' + value.toString().replace('.', BRL_CURRENCY.FLOAT_SEPARATOR)
+  }
+  return value.toLocaleString(BRL_CURRENCY.LOCALE, { minimumFractionDigits: decimalDigits, style: 'currency', currency: BRL_CURRENCY.FIAT_NAME })
 }
 
 

@@ -61,15 +61,15 @@ computed(() => {
 })
 
 const searchAssets = () => {
-
-  if (search.value.length < 3) {
+  if (search.value.length === 0) {
+    assetTable.value?.refreshAssets([], true)
     return
   }
 
   AssetDataService.searchAssets({ search: search.value }).then((response) => {
-    assetTable.value?.refreshAssets(response.data)
+    assetTable.value?.refreshAssets(response.data, false)
   }).catch((e) => {
-    alert.value?.show(e.response.data, ALERT_TYPES.error)
+    alert.value?.show(e.response.data, ALERT_TYPES.ERROR)
   });
 }
 
@@ -79,7 +79,7 @@ const openModal = (asset: Asset) => {
 }
 
 const error = (errors: unknown[]) => {
-  alert.value?.show(errors.map(String), ALERT_TYPES.error)
+  alert.value?.show(errors.map(String), ALERT_TYPES.ERROR)
 }
 
 onMounted(() => {

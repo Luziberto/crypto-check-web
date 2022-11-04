@@ -1,9 +1,9 @@
-export const ALERT_TYPES = {
-    success: 'SUCCESS' as string,
-    error: 'ERROR' as string
+export enum ALERT_TYPES {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
 }
 
-export const ALERT_MESSAGES = {
-  success: 'Request successfully',
-  error: 'Request error'
+export enum ALERT_MESSAGES {
+  SUCCESS = 'Request successfully',
+  ERROR = 'Request error'
 }
