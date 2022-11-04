@@ -9,18 +9,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive } from 'vue';
 import AssetDataService from '@/services/AssetDataService';
 import ObserverComponent from '@/components/ObserverComponent.vue';
 import Alert from '@/components/global/AlertPopup.vue';
 import { Asset } from '@/types/Asset';
 import { ALERT_TYPES } from '@/constants/AlertConstants';
+import { ASSET_CONFIG } from '@/constants/AssetConstants';
 import AssetJson from '@/assets/assets.json'
 import { GetAssetsRequestData } from '@/types/Asset/RequestData';
 
 interface Options { page: number, itemsPerPage: number }
 
-const options = reactive<Options>({ page: 1, itemsPerPage: 10 })
+const options = reactive<Options>({ page: 1, itemsPerPage: ASSET_CONFIG.ITEMS_PER_PAGE })
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
 const getData = (): void => {
@@ -30,6 +31,7 @@ const getData = (): void => {
   const items = assetsSlug.slice(start, end)
 
   if (!items.length) {
+    emit('finishData')
     return
   }
 
@@ -53,6 +55,7 @@ const getData = (): void => {
 
 const emit = defineEmits<{
   (e: 'moreData', assets: Asset[]): void
+  (e: 'finishData'): void
 }>()
 
 </script>

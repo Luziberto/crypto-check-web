@@ -38,10 +38,6 @@
                 {{ formatNumber(Number(asset.price) || 0) }}
               </td>
             </tr>
-            <AssetListObserver
-              v-if="activeInfiniteScroll"
-              @more-data="pushAssets"
-            />
           </tbody>
         </table>
 
@@ -90,6 +86,7 @@
         <AssetListObserver
           v-if="activeInfiniteScroll"
           @more-data="pushAssets"
+          @finish-data="activeInfiniteScroll = false"
         />
       </div>
     </div>
