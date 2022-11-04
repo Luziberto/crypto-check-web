@@ -2,7 +2,6 @@
   <div>
     <Alert ref="alert" />
     <ObserverComponent
-      v-show="!loading"
       :options="options"
       @intersect="getData"
     />
@@ -21,7 +20,6 @@ import { GetAssetsRequestData } from '@/types/Asset/RequestData';
 
 interface Options { page: number, itemsPerPage: number }
 
-const loading = ref<boolean>(true)
 const options = reactive<Options>({ page: 1, itemsPerPage: 10 })
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
@@ -41,9 +39,6 @@ const getData = (): void => {
 
   AssetDataService.getAssets(body).then((response) => {
     const responseData = response.data
-    if (!responseData.length) {
-      loading.value = false
-    }
     emit('moreData', responseData)
     options.page++
     options.itemsPerPage++
@@ -52,19 +47,12 @@ const getData = (): void => {
     if (e.response) {
       message = Object.values(e.response.data).flat()
     }
-    alert.value?.show(message, ALERT_TYPES.error)
+    alert.value?.show(message, ALERT_TYPES.ERROR)
   })
-    .finally(() => {
-      loading.value = false
-    })
 }
 
 const emit = defineEmits<{
   (e: 'moreData', assets: Asset[]): void
 }>()
-
-onMounted(() => {
-  getData()
-})
 
 </script>

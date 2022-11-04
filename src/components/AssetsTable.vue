@@ -30,12 +30,16 @@
                 </div>
               </td>
               <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
-                {{
-                    formatNumber(Number(asset.price) || 0)
-                }}</td>
+                <span
+                  :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
+                >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
+              </td>
+              <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
+                {{ formatNumber(Number(asset.price) || 0) }}
+              </td>
             </tr>
             <AssetListObserver
-              v-if="!disableInfiniteScroll"
+              v-if="activeInfiniteScroll"
               @more-data="pushAssets"
             />
           </tbody>
@@ -53,12 +57,12 @@
               class="block px-4 py-4 bg-white hover:bg-gray-50"
             >
               <span class="flex space-x-4">
+                <img
+                  class="w-12 h-12 rounded-full"
+                  :src="asset.image"
+                  alt=""
+                >
                 <span class="flex flex-1 space-x-2 truncate">
-                  <img
-                    class="w-12 h-12 rounded-full"
-                    :src="asset.image"
-                    alt=""
-                  >
                   <span class="flex flex-col text-md text-gray-500 truncate">
                     <span class="truncate"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ asset.name }}
                       <span class="text-gray-400">
@@ -67,33 +71,26 @@
                     </span>
                   </span>
                 </span>
-                <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <RightArrowSvg :width="12" />
               </span>
-              <div class="pt-2">
-                <span class="text-left font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
+              <div class="flex justify-between pt-2">
+                <span class="text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
                   {{ formatNumber(Number(asset.price) || 0) }}
+                </span>
+                <span class="text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
+                  <span
+                    :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
+                  >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
                 </span>
               </div>
             </a>
           </div>
         </div>
+        <Loading v-show="activeInfiniteScroll" />
         <AssetListObserver
-          v-if="!disableInfiniteScroll"
+          v-if="activeInfiniteScroll"
           @more-data="pushAssets"
         />
-        <Loading v-show="!disableInfiniteScroll" />
       </div>
     </div>
   </div>
@@ -107,11 +104,13 @@ import { Asset } from '@/types/Asset';
 import { formatCurrency } from '@/utils/NumberUtils';
 import AssetListObserver from '@/components/AssetsListObserver.vue'
 import Loading from '@/components/global/LoadingSpin.vue'
+import RightArrowSvg from '@/assets/svg/RightArrowSvg.vue'
 import { ref, reactive } from 'vue';
+import { COLOR_TEXT_CLASS } from '@/constants/ColorConstants';
 
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
-const disableInfiniteScroll = ref<boolean>(false)
+const activeInfiniteScroll = ref<boolean>(true)
 
 const emit = defineEmits<{
   (e: 'openModal', asset: Asset): void
@@ -151,12 +150,12 @@ const subscribeAssets = (newAssets: Asset[]) => {
   });
 }
 
-const refreshAssets = (newAssets: Asset[]) => {
-  disableInfiniteScroll.value = true
+const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
   assets.splice(0, assets.length)
+  activeInfiniteScroll.value = infiniteScrollState
   pushAssets(newAssets)
 }
 
-defineExpose({ refreshAssets, disableInfiniteScroll })
+defineExpose({ refreshAssets })
 
 </script>
