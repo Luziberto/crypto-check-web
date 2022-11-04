@@ -83,10 +83,10 @@
               class="cursor-pointer hover:bg-gray-100"
             >
               <td class="text-center w-1/2 px-1 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {{ formatNumber(assetHistory.market_data.price) }}
+                {{ formatNumber(assetHistory.market_data.price, currency) }}
               </td>
               <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {{ formatNumber(assetHistory.market_data.total_volume) }}
+                {{ formatNumber(assetHistory.market_data.total_volume, currency) }}
               </td>
             </tr>
           </tbody>
@@ -97,19 +97,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import CryptoHistoryForm from '@/components/CryptoHistoryForm.vue';
-import { Asset } from '@/types/Asset';
-import { AssetHistory } from '@/types/AssetHistory';
-import { formatCurrency } from '@/utils/NumberUtils';
+import { ref } from "vue"
+import CryptoHistoryForm from "@/components/CryptoHistoryForm.vue"
+import { Asset } from "@/types/Asset"
+import { AssetHistory } from "@/types/AssetHistory"
+import { formatCurrency } from "@/utils/NumberUtils"
+import { useLocaleStore } from "@/store/locale"
+import { storeToRefs } from "pinia"
+
+const localeStore = useLocaleStore()
+const { currency } = storeToRefs(localeStore)
 
 defineProps<{
   selectedAsset: Asset
 }>()
 
 const emit = defineEmits<{
-  (e: 'close'): void,
-  (e: 'error', errors: unknown[]): void
+  (e: "close"): void,
+  (e: "error", errors: unknown[]): void
 }>()
 
 const assetHistory = ref<AssetHistory>({} as AssetHistory)
@@ -118,9 +123,9 @@ const showAssetHistory = (history: AssetHistory) => {
   assetHistory.value = history
 }
 
-const close = () => emit('close')
+const close = () => emit("close")
 
-const error = (errors: unknown[]) => emit('error', errors)
+const error = (errors: unknown[]) => emit("error", errors)
 
 const formatNumber = formatCurrency
 

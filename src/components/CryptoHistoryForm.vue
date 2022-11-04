@@ -19,29 +19,29 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import AssetDataService from '@/services/AssetDataService';
-import { Asset } from '@/types/Asset';
-import { AssetHistory } from '@/types/AssetHistory';
-import { format } from 'date-fns'
+import { ref } from "vue"
+import AssetDataService from "@/services/AssetDataService"
+import { Asset } from "@/types/Asset"
+import { AssetHistory } from "@/types/AssetHistory"
+import { format } from "date-fns"
 
 const props = defineProps<{
   asset: Asset
 }>()
 
 const emit = defineEmits<{
-  (e: 'assetHistory', response: AssetHistory): void,
-  (e: 'errors', response: unknown[]): void,
+  (e: "assetHistory", response: AssetHistory): void,
+  (e: "errors", response: unknown[]): void,
 }>()
 
-const date = ref<string>(format(new Date(), 'yyyy-MM-dd'));
+const date = ref<string>(format(new Date(), "yyyy-MM-dd"))
 
 const getAssetHistory = () => {
   AssetDataService.getAssetHistory(props.asset.uuid, date.value).then((response) => {
-    emit('assetHistory', response.data)
+    emit("assetHistory", response.data)
   }).catch((e) => {
     const messages: unknown[] = Object.values(e.response.data).flat()
-    emit('errors', messages)
-  });
+    emit("errors", messages)
+  })
 }
 </script>

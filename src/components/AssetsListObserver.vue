@@ -9,15 +9,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-import AssetDataService from '@/services/AssetDataService';
-import ObserverComponent from '@/components/ObserverComponent.vue';
-import Alert from '@/components/global/AlertPopup.vue';
-import { Asset } from '@/types/Asset';
-import { ALERT_TYPES } from '@/constants/AlertConstants';
-import { ASSET_CONFIG } from '@/constants/AssetConstants';
-import AssetJson from '@/assets/assets.json'
-import { GetAssetsRequestData } from '@/types/Asset/RequestData';
+import { ref, reactive } from "vue"
+import AssetDataService from "@/services/AssetDataService"
+import ObserverComponent from "@/components/ObserverComponent.vue"
+import Alert from "@/components/global/AlertPopup.vue"
+import { Asset } from "@/types/Asset"
+import { ALERT_TYPES } from "@/constants/AlertConstants"
+import { ASSET_CONFIG } from "@/constants/AssetConstants"
+import AssetJson from "@/assets/assets.json"
+import { GetAssetsRequestData } from "@/types/Asset/RequestData"
 
 interface Options { page: number, itemsPerPage: number }
 
@@ -31,7 +31,7 @@ const getData = (): void => {
   const items = assetsSlug.slice(start, end)
 
   if (!items.length) {
-    emit('finishData')
+    emit("finishData")
     return
   }
 
@@ -41,7 +41,7 @@ const getData = (): void => {
 
   AssetDataService.getAssets(body).then((response) => {
     const responseData = response.data
-    emit('moreData', responseData)
+    emit("moreData", responseData)
     options.page++
     options.itemsPerPage++
   }).catch((e) => {
@@ -54,8 +54,8 @@ const getData = (): void => {
 }
 
 const emit = defineEmits<{
-  (e: 'moreData', assets: Asset[]): void
-  (e: 'finishData'): void
+  (e: "moreData", assets: Asset[]): void
+  (e: "finishData"): void
 }>()
 
 </script>

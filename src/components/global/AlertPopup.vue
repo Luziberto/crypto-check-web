@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from "vue"
 
 const hide = ref(true as boolean)
 const messages = ref([] as Array<string>)
@@ -51,12 +51,12 @@ const types: Type = { ERROR: 0, SUCCESS: 1 }
 
 const show = (messagesForShow: Array<string>, typeSlug?: string) => {
   messages.value = messagesForShow
-  const alertType = typeSlug ? types[typeSlug as keyof Type] : types['SUCCESS' as keyof Type]
+  const alertType = typeSlug ? types[typeSlug as keyof Type] : types["SUCCESS" as keyof Type]
   type.value = alertType
   hide.value = false
   setTimeout(() => {
     hide.value = true
-  }, 5000);
+  }, 5000)
 }
 defineExpose({
   show

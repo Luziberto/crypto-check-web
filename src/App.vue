@@ -7,7 +7,7 @@
       <a href="https://matias.ma/nsfw">
         <Coin :width="32" />
       </a>
-      <h1 class="flex-1 font-bold text-xl">Coin List</h1>
+      <h1 class="flex-1 font-bold text-xl">{{ translate.TITLE }}</h1>
       <!-- <div class="mt-auto mr-2 text-left">
 
       </div> -->
@@ -18,7 +18,12 @@
 </template>
 
 <script lang="ts" setup>
-import Coin from '@/assets/svg/CoinSvg.vue';
+import Coin from "@/assets/svg/CoinSvg.vue"
+import { useLocaleStore } from "@/store/locale"
+import { storeToRefs } from "pinia"
+
+const localeStore = useLocaleStore()
+const { translate } = storeToRefs(localeStore)
 
 // export default defineComponent({
 //   name: 'App'

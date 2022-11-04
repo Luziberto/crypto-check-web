@@ -1,8 +1,8 @@
-import http from "@/plugins/axios";
-import { GetAssetsRequestData, SearchAssetsRequestData } from "@/types/Asset/RequestData";
-import { GetAssetsResponseData } from "@/types/Asset/ResponseData";
-import {AxiosResponse} from 'axios';
-import AssetJson from '@/assets/assets.json'
+import http from "@/plugins/axios"
+import { GetAssetsRequestData, SearchAssetsRequestData } from "@/types/Asset/RequestData"
+import { GetAssetsResponseData } from "@/types/Asset/ResponseData"
+import {AxiosResponse} from "axios"
+import AssetJson from "@/assets/assets.json"
 
 class AssetDataService {
   // getAll(): Promise<any> {
@@ -14,19 +14,19 @@ class AssetDataService {
 //   }
 
 getAssets(data: GetAssetsRequestData): Promise<AxiosResponse> {
-  return http.post<GetAssetsResponseData[]>("/assets", data);
+  return http.post<GetAssetsResponseData[]>("/assets", data)
 }
 
 searchAssets(data: SearchAssetsRequestData): Promise<AxiosResponse> {
-  return http.post<GetAssetsResponseData[]>("/assets/search", data);
+  return http.post<GetAssetsResponseData[]>("/assets/search", data)
 }
 
 getAllAssets(page: number, itemsPerPage: number): Promise<AxiosResponse> {
-  return http.post<GetAssetsResponseData[]>("/assets", { assets: AssetJson.slice((page - 1) * itemsPerPage, page * itemsPerPage) });
+  return http.post<GetAssetsResponseData[]>("/assets", { assets: AssetJson.slice((page - 1) * itemsPerPage, page * itemsPerPage) })
 }
 
 getAssetHistory(uuid: string, date: string): Promise<AxiosResponse> {
-  return http.get<GetAssetsResponseData[]>(`/assets/${uuid}/history?date=${date}`);
+  return http.get<GetAssetsResponseData[]>(`/assets/${uuid}/history?date=${date}`)
 }
 
 
@@ -47,4 +47,4 @@ getAssetHistory(uuid: string, date: string): Promise<AxiosResponse> {
 //   }
 }
 
-export default new AssetDataService;
+export default new AssetDataService

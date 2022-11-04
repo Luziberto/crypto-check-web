@@ -1,13 +1,14 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
+    <LocaleButton :width="20" />
     <div class="flex md:grid md:grid-cols-12">
       <div class="flex flex-1 md:col-start-11 md:col-end-13 m-2">
         <div class="text-left pb-2 w-full">
           <label
             for="search"
             class="font-bold"
-          >Busca </label>
+          >{{ translate.SEARCH }}</label>
           <input
             v-model="search"
             name="search"
@@ -34,25 +35,33 @@
 
 <script lang="ts" setup>
 
-import { ref, computed, onMounted } from 'vue';
-import { Asset } from '@/types/Asset';
-import AssetsTable from '@/components/AssetsTable.vue';
-import CryptoDialog from '@/components/CryptoDialog.vue';
-import { ALERT_TYPES } from '@/constants/AlertConstants';
-import AssetDataService from '@/services/AssetDataService';
-import Alert from '@/components/global/AlertPopup.vue';
+import { ref, computed, onMounted } from "vue"
+import { Asset } from "@/types/Asset"
+import AssetsTable from "@/components/AssetsTable.vue"
+import CryptoDialog from "@/components/CryptoDialog.vue"
+import { ALERT_TYPES } from "@/constants/AlertConstants"
+import AssetDataService from "@/services/AssetDataService"
+import Alert from "@/components/global/AlertPopup.vue"
+import LocaleButton from "@/components/global/LocaleButton.vue"
+import { PT_BR } from "@/constants/LocaleConstants"
+import { useLocaleStore } from "@/store/locale"
+import { storeToRefs } from "pinia"
+
+const localeStore = useLocaleStore()
+localeStore.changeLocale(PT_BR)
+const { translate } = storeToRefs(localeStore)
 
 const selectedAsset = ref<Asset>({
-  uuid: '',
-  name: '',
-  slug: '',
-  symbol: '',
-  price: '0',
-  image: ''
+  uuid: "",
+  name: "",
+  slug: "",
+  symbol: "",
+  price: "0",
+  image: ""
 } as Asset)
 
 const dialog = ref<boolean>(false)
-const search = ref<string>('')
+const search = ref<string>("")
 const assetTable = ref<InstanceType<typeof AssetsTable> | null>(null)
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
@@ -70,7 +79,7 @@ const searchAssets = () => {
     assetTable.value?.refreshAssets(response.data, false)
   }).catch((e) => {
     alert.value?.show(e.response.data, ALERT_TYPES.ERROR)
-  });
+  })
 }
 
 const openModal = (asset: Asset) => {
@@ -83,6 +92,7 @@ const error = (errors: unknown[]) => {
 }
 
 onMounted(() => {
+
   searchAssets()
 })
 

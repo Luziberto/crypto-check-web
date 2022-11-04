@@ -40,8 +40,8 @@
               <td
                 class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
               >
-                <span class="text-sm text-gray-400">Current Price</span>
-                <span class="w-40">{{ formatNumber(Number(asset.price) || 0) }}</span>
+                <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                <span class="w-40">{{ formatNumber(Number(asset.price) || 0, currency) }}</span>
               </td>
             </tr>
           </tbody>
@@ -78,8 +78,8 @@
               </span>
               <div class="flex justify-between pt-2">
                 <span class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
-                  <span class="text-sm text-gray-400">Current Price</span>
-                  {{ formatNumber(Number(asset.price) || 0) }}
+                  <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                  {{ formatNumber(Number(asset.price) || 0, currency) }}
                 </span>
                 <span class="flex flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">24h</span>
@@ -104,34 +104,39 @@
 
 <script lang="ts" setup>
 
-import Pusher from 'pusher-js';
-import Echo from 'laravel-echo';
-import { Asset } from '@/types/Asset';
-import { formatCurrency } from '@/utils/NumberUtils';
-import AssetListObserver from '@/components/AssetsListObserver.vue'
-import Loading from '@/components/global/LoadingSpin.vue'
-import RightArrowSvg from '@/assets/svg/RightArrowSvg.vue'
-import { ref, reactive, onMounted } from 'vue';
-import { COLOR_TEXT_CLASS } from '@/constants/ColorConstants';
+import Pusher from "pusher-js"
+import Echo from "laravel-echo"
+import { Asset } from "@/types/Asset"
+import { formatCurrency } from "@/utils/NumberUtils"
+import AssetListObserver from "@/components/AssetsListObserver.vue"
+import Loading from "@/components/global/LoadingSpin.vue"
+import RightArrowSvg from "@/assets/svg/RightArrowSvg.vue"
+import { ref, reactive, onMounted } from "vue"
+import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
+import { useLocaleStore } from "@/store/locale"
+import { storeToRefs } from "pinia"
 
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
 const activeInfiniteScroll = ref<boolean>(true)
 
+const localeStore = useLocaleStore()
+const { currency, translate } = storeToRefs(localeStore)
+
 const emit = defineEmits<{
-  (e: 'openModal', asset: Asset): void
+  (e: "openModal", asset: Asset): void
 }>()
 
 const options = {
   broadcaster: "pusher",
   key: import.meta.env.VITE_PUSH_KEY,
   cluster: "sa1"
-};
+}
 
 const echo = new Echo({
   ...options,
   client: new Pusher(options.key, options)
-});
+})
 
 const updateAssets = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
@@ -142,7 +147,7 @@ const updateAssets = (asset: Asset) => {
 
 
 const openModal = (asset: Asset) => {
-  emit('openModal', asset)
+  emit("openModal", asset)
 }
 
 const pushAssets = (newAssets: Asset[]) => {
@@ -156,7 +161,7 @@ const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
 }
 
 onMounted(() => {
-  echo.channel("coingecko").listen(`.asset_price_update`, (data: { asset: Asset }) => { updateAssets(data.asset) })
+  echo.channel("coingecko").listen(".asset_price_update", (data: { asset: Asset }) => { updateAssets(data.asset) })
 })
 
 defineExpose({ refreshAssets })

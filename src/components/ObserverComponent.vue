@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue"
 
 interface Options { page: number, itemsPerPage: number }
 
-const root = ref<HTMLElement | null>();
+const root = ref<HTMLElement | null>()
 
 defineProps<{
   options: Options
@@ -18,7 +18,7 @@ defineProps<{
 
 const observer = new IntersectionObserver(([entry]) => {
   if (entry && entry.isIntersecting) {
-    emit('intersect');
+    emit("intersect")
   }
 })
 
@@ -27,7 +27,7 @@ const observer = new IntersectionObserver(([entry]) => {
 // }
 
 const emit = defineEmits<{
-  (e: 'intersect'): void
+  (e: "intersect"): void
 }>()
 
 onMounted(() => {
