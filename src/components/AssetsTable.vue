@@ -29,13 +29,19 @@
                   </span>
                 </div>
               </td>
-              <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
+              <td
+                class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+              >
+                <span class="text-sm text-gray-400">24h</span>
                 <span
                   :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
                 >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
               </td>
-              <td class="text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap">
-                {{ formatNumber(Number(asset.price) || 0) }}
+              <td
+                class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+              >
+                <span class="text-sm text-gray-400">Current Price</span>
+                <span class="w-40">{{ formatNumber(Number(asset.price) || 0) }}</span>
               </td>
             </tr>
           </tbody>
@@ -60,8 +66,9 @@
                 >
                 <span class="flex flex-1 space-x-2 truncate">
                   <span class="flex flex-col text-md text-gray-500 truncate">
-                    <span class="truncate"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ asset.name }}
-                      <span class="text-gray-400">
+                    <span class="flex flex-col truncate">
+                      {{ asset.name }}
+                      <span class="text-sm text-gray-400">
                         {{ asset.symbol.toUpperCase() }}
                       </span>
                     </span>
@@ -70,10 +77,12 @@
                 <RightArrowSvg :width="12" />
               </span>
               <div class="flex justify-between pt-2">
-                <span class="text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
+                <span class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
+                  <span class="text-sm text-gray-400">Current Price</span>
                   {{ formatNumber(Number(asset.price) || 0) }}
                 </span>
-                <span class="text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
+                <span class="flex flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
+                  <span class="text-sm text-gray-400">24h</span>
                   <span
                     :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
                   >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
@@ -102,7 +111,7 @@ import { formatCurrency } from '@/utils/NumberUtils';
 import AssetListObserver from '@/components/AssetsListObserver.vue'
 import Loading from '@/components/global/LoadingSpin.vue'
 import RightArrowSvg from '@/assets/svg/RightArrowSvg.vue'
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { COLOR_TEXT_CLASS } from '@/constants/ColorConstants';
 
 const formatNumber = formatCurrency
@@ -138,13 +147,6 @@ const openModal = (asset: Asset) => {
 
 const pushAssets = (newAssets: Asset[]) => {
   assets.push(...newAssets)
-  subscribeAssets(newAssets)
-}
-
-const subscribeAssets = (newAssets: Asset[]) => {
-  newAssets.forEach(newAsset => {
-    echo.channel("coingecko").listen(`.asset_event_${newAsset.slug}`, (data: { asset: Asset }) => { updateAssets(data.asset) })
-  });
 }
 
 const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
@@ -152,6 +154,10 @@ const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
   activeInfiniteScroll.value = infiniteScrollState
   pushAssets(newAssets)
 }
+
+onMounted(() => {
+  echo.channel("coingecko").listen(`.asset_price_update`, (data: { asset: Asset }) => { updateAssets(data.asset) })
+})
 
 defineExpose({ refreshAssets })
 

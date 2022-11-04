@@ -10,8 +10,8 @@ export const formatCurrency = (value: number): string => {
 export const getExponencialNumber = (value: number): string => {
     const expIndex = value.toString().indexOf('e')
     const zeros = '0'.repeat(Number(value.toString().charAt(expIndex + 2)))
-    const numberPart = value.toString().substring(0, expIndex).replace('.', BRL_CURRENCY.FLOAT_SEPARATOR)
-    return 'R$ ' + zeros.charAt(0) + BRL_CURRENCY.FIAT_SYMBOL + zeros.substring(1, expIndex) + numberPart
+    const numberPart = value.toString().substring(0, expIndex).replace('.', '')
+    return 'R$ ' + zeros.charAt(0) + BRL_CURRENCY.FLOAT_SEPARATOR + zeros.substring(1, expIndex) + numberPart
 }
 
 export const isExpNumber = (value: number): boolean => {
