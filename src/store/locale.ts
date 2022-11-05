@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Currency, Translate, getCurrency, getTranslate } from "@/constants/LocaleConstants"
+import { Currency, Translate, getCurrency, getTranslate, PT_BR, PT_BR_CURRENCY, PT_BR_TRANSLATE } from "@/constants/LocaleConstants"
 
 interface State {
   currency: Currency,
@@ -9,24 +9,14 @@ interface State {
 
 export const useLocaleStore = defineStore("locale", {
   state: (): State => ({
-    locale: "",
-    currency: {
-      FIAT_SYMBOL: "",
-      FIAT_NAME: "",
-      FLOAT_SEPARATOR: "",
-      THOUSAND_SEPARATOR: "",
-      LOCALE: ""
-    },
-    translate: {
-      TITLE: "",
-      SEARCH: "",
-      CURRENT_PRICE: ""
-    }
+    locale: PT_BR,
+    currency: PT_BR_CURRENCY,
+    translate: PT_BR_TRANSLATE
   }),
   actions: {
-    changeLocale(locale: string) {
+    changeLocale(locale: string, fiat: string) {
       this.locale = locale
-      this.currency = getCurrency(locale)
+      this.currency = getCurrency(fiat)
       this.translate = getTranslate(locale)
     }
   }

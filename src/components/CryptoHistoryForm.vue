@@ -14,16 +14,21 @@
     <button
       class="h-10 bg-green-600 border rounded-md px-2 -py-2 ml-4 mt-auto font-bold text-white hover:bg-green-500"
       @click="getAssetHistory()"
-    >Search</button>
+    >{{ translate.SEARCH }}</button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import AssetDataService from "@/services/AssetDataService"
 import { Asset } from "@/types/Asset"
 import { AssetHistory } from "@/types/AssetHistory"
 import { format } from "date-fns"
+import { useLocaleStore } from "@/store/locale"
+import { storeToRefs } from "pinia"
+
+const localeStore = useLocaleStore()
+const { translate } = storeToRefs(localeStore)
 
 const props = defineProps<{
   asset: Asset
@@ -44,4 +49,7 @@ const getAssetHistory = () => {
     emit("errors", messages)
   })
 }
+onMounted(() => {
+  getAssetHistory()
+})
 </script>

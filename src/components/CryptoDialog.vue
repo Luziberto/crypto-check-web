@@ -43,23 +43,6 @@
           @asset-history="showAssetHistory"
           @errors="error"
         />
-        <div class="relative">
-          <div
-            id="menuModal"
-            class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-40"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="mentor-menu"
-          >
-            <div class="font-medium text-sm text-gray-500 text-center"> teste </div>
-            <hr class="ml-2 mr-2">
-            <a
-              href="#"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              role="menuitem"
-            >Remove Mentor</a>
-          </div>
-        </div>
       </div>
       <div class="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">

@@ -46,7 +46,7 @@ export enum EN_US_TRANSLATE {
 }
 
 export function getCurrency(locale: string) : Currency {
-  if (locale === EN_US) {
+  if (locale === USD) {
     return EN_US_CURRENCY
   } else {
     return PT_BR_CURRENCY

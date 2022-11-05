@@ -43,12 +43,10 @@ import { ALERT_TYPES } from "@/constants/AlertConstants"
 import AssetDataService from "@/services/AssetDataService"
 import Alert from "@/components/global/AlertPopup.vue"
 import LocaleButton from "@/components/global/LocaleButton.vue"
-import { PT_BR } from "@/constants/LocaleConstants"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
 
 const localeStore = useLocaleStore()
-localeStore.changeLocale(PT_BR)
 const { translate } = storeToRefs(localeStore)
 
 const selectedAsset = ref<Asset>({
