@@ -44,7 +44,7 @@
           @errors="error"
         />
       </div>
-      <div class="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+      <div class="hidden lg:block mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
@@ -54,9 +54,9 @@
                 Price
               </th>
               <th
-                class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                class="px-6 py-3 bg-gray-50 truncate text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
               >
-                Volume
+                Volume 24h
               </th>
             </tr>
           </thead>
@@ -69,15 +69,34 @@
               :key="`asset-history-${key}`"
               class="cursor-pointer hover:bg-gray-100"
             >
-              <td class="text-center w-1/2 px-1 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5 text-gray-900">
                 {{ formatNumber(Number(market_data.price), getCurrency(market_data.fiat)) }}
               </td>
-              <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td class="text-center px-6 break-all py-4 text-sm leading-5 text-gray-900">
                 {{ formatNumber(Number(market_data.total_volume), getCurrency(market_data.fiat)) }}
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="shadow lg:hidden">
+        <ul class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden">
+          <li
+            v-for="(market_data, key) in assetHistory.market_data"
+            :key="`asset-history-${key}`"
+          >
+            <div class="flex">
+              <span class="text-gray-500 w-28">Price: </span>
+              <span>{{ formatNumber(Number(market_data.price), getCurrency(market_data.fiat)) }}</span>
+            </div>
+
+            <div class="flex">
+              <span class=" text-gray-500 text-sm w-28">Volume 24h: </span>
+              <span class="">{{ formatNumber(Number(market_data.total_volume), getCurrency(market_data.fiat)) }}</span>
+            </div>
+
+          </li>
+        </ul>
       </div>
     </div>
   </div>
