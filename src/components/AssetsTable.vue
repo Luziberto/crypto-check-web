@@ -35,7 +35,7 @@
                 <span class="text-sm text-gray-400">24h</span>
                 <span
                   :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
-                >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
+                >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
               </td>
               <td
                 class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
@@ -89,7 +89,7 @@
                   <span class="text-sm text-gray-400">24h</span>
                   <span
                     :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
-                  >{{ Math.abs(asset.price_change_percentage_24h) }}%</span>
+                  >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
                 </span>
               </div>
             </a>
