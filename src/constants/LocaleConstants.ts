@@ -40,7 +40,7 @@ export enum PT_BR_TRANSLATE {
 }
 
 export enum EN_US_TRANSLATE {
-  TITLE = "Cryto list",
+  TITLE = "Crypto list",
   SEARCH = "Search",
   CURRENT_PRICE = "Current Price"
 }
