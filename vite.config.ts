@@ -5,7 +5,7 @@ import eslintPlugin from "vite-plugin-eslint"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? "/asset-web/" : "/",
+  base: "/",
   plugins: [vue(), eslintPlugin()],
   resolve: {
     alias: {
