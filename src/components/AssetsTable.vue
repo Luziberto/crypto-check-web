@@ -116,7 +116,7 @@ import { formatCurrency } from "@/utils/NumberUtils"
 import AssetListObserver from "@/components/AssetsListObserver.vue"
 import Loading from "@/components/global/LoadingSpin.vue"
 import RightArrowSvg from "@/assets/svg/RightArrowSvg.vue"
-import { ref, reactive, onMounted } from "vue"
+import { ref, reactive } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
@@ -158,17 +158,27 @@ const openModal = (asset: Asset) => {
 
 const pushAssets = (newAssets: Asset[]) => {
   assets.push(...newAssets)
+  subscribeAssets(newAssets)
+}
+
+const subscribeAssets = (newAssets: Asset[]) => {
+  newAssets.forEach(newAsset => {
+    echo.channel(`coin.${newAsset.slug}`).listen(`.asset_price_update`, (data: { asset: Asset }) => { updateAssets(data.asset) })
+  })
+}
+
+const unSubscribeAssets = (newAssets: Asset[]) => {
+  newAssets.forEach(newAsset => {
+    echo.leave(`coin.${newAsset.slug}`)
+  })
 }
 
 const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
+  unSubscribeAssets(assets)
   assets.splice(0, assets.length)
   activeInfiniteScroll.value = infiniteScrollState
   pushAssets(newAssets)
 }
-
-onMounted(() => {
-  echo.channel("coingecko").listen(".asset_price_update", (data: { asset: Asset }) => { updateAssets(data.asset) })
-})
 
 defineExpose({ refreshAssets })
 
