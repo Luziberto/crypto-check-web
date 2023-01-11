@@ -42,7 +42,7 @@
               >
                 <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
                 <span class="w-40">{{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
-                    keyof Asset]) || 0, currency)
+                  keyof Asset]) || 0, currency)
                 }}</span>
               </td>
             </tr>
@@ -82,7 +82,7 @@
                 <span class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
                   {{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset]) ||
-                      0, currency)
+  0, currency)
                   }}
                 </span>
                 <span class="flex flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
@@ -111,11 +111,11 @@
 
 import Pusher from "pusher-js"
 import Echo from "laravel-echo"
-import { Asset } from "@/types/Asset"
+import { Asset } from "@/types/models/Asset"
 import { formatCurrency } from "@/utils/NumberUtils"
-import AssetListObserver from "@/components/AssetsListObserver.vue"
-import Loading from "@/components/global/LoadingSpin.vue"
-import RightArrowSvg from "@/assets/svg/RightArrowSvg.vue"
+import AssetListObserver from "@/components/asset/AssetListObserver.vue"
+import Loading from "@/components/common/LoadingSpin.vue"
+import RightArrowSvg from "@/components/common/Icons/RightArrowSvg.vue"
 import { ref, reactive } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"

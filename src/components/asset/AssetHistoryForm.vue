@@ -20,12 +20,13 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue"
-import AssetDataService from "@/services/AssetDataService"
-import { Asset } from "@/types/Asset"
-import { AssetHistory } from "@/types/AssetHistory"
+import { history as assetHistory } from "@/services/asset"
+import { Asset } from "@/types/models/Asset"
+import { AssetHistory } from "@/types/models/AssetHistory"
 import { format } from "date-fns"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
+import { AxiosError } from "axios"
 
 const localeStore = useLocaleStore()
 const { translate } = storeToRefs(localeStore)
@@ -41,14 +42,17 @@ const emit = defineEmits<{
 
 const date = ref<string>(format(new Date(), "yyyy-MM-dd"))
 
-const getAssetHistory = () => {
-  AssetDataService.getAssetHistory(props.asset.uuid, date.value).then((response) => {
-    emit("assetHistory", response.data)
-  }).catch((e) => {
-    const messages: unknown[] = Object.values(e.response.data).flat()
+const getAssetHistory = async () => {
+  try {
+    const cryptoHistory = await assetHistory(props.asset.uuid, date.value)
+    emit("assetHistory", cryptoHistory.data)
+  } catch (error) {
+    const err = error as AxiosError
+    const messages: unknown[] = Object.values(err.response?.data ?? {}).flat()
     emit("errors", messages)
-  })
+  }
 }
+
 onMounted(() => {
   getAssetHistory()
 })

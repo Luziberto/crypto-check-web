@@ -10,14 +10,14 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue"
-import AssetDataService from "@/services/AssetDataService"
-import ObserverComponent from "@/components/ObserverComponent.vue"
-import Alert from "@/components/global/AlertPopup.vue"
-import { Asset } from "@/types/Asset"
+import ObserverComponent from "@/components/common/ObserverComponent.vue"
+import Alert from "@/components/common/AlertPopup.vue"
+import { Asset } from "@/types/models/Asset"
 import { ALERT_TYPES } from "@/constants/AlertConstants"
 import { ASSET_CONFIG } from "@/constants/AssetConstants"
 import AssetJson from "@/assets/assets.json"
-import { GetAssetsRequestData } from "@/types/Asset/RequestData"
+import { list as assetList } from "@/services/asset"
+import { AxiosError } from "axios"
 
 interface Options { page: number, itemsPerPage: number }
 
@@ -35,22 +35,21 @@ const getData = (): void => {
     return
   }
 
-  const body: GetAssetsRequestData = {
-    assets: items
-  }
+  getAssets(items)
+}
 
-  AssetDataService.getAssets(body).then((response) => {
-    const responseData = response.data
-    emit("moreData", responseData)
+const getAssets = async (items: Array<string>) => {
+  try {
+    const assets = await assetList({ assets: items })
+    emit("moreData", assets.data)
     options.page++
     options.itemsPerPage++
-  }).catch((e) => {
-    let message = [e.message]
-    if (e.response) {
-      message = Object.values(e.response.data).flat()
-    }
+  } catch (error) {
+    const err = error as AxiosError
+    // let message = [err.message]
+    const message = Object.values(err.response?.data ?? {}).flat()
     alert.value?.show(message, ALERT_TYPES.ERROR)
-  })
+  }
 }
 
 const emit = defineEmits<{

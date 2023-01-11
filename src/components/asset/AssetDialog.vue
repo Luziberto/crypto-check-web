@@ -38,7 +38,7 @@
         </button>
       </div>
       <div class="flex items-center justify-center py-2 text-xl border-b font-bold">
-        <CryptoHistoryForm
+        <AssetHistoryForm
           :asset="selectedAsset"
           @asset-history="showAssetHistory"
           @errors="error"
@@ -104,9 +104,9 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import CryptoHistoryForm from "@/components/CryptoHistoryForm.vue"
-import { Asset } from "@/types/Asset"
-import { AssetHistory } from "@/types/AssetHistory"
+import AssetHistoryForm from "@/components/asset/AssetHistoryForm.vue"
+import { Asset } from "@/types/models/Asset"
+import { AssetHistory } from "@/types/models/AssetHistory"
 import { formatCurrency } from "@/utils/NumberUtils"
 import { getCurrency } from "@/constants/LocaleConstants"
 

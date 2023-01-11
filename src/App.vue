@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import Coin from "@/assets/svg/CoinSvg.vue"
+import Coin from "@/components/common/Icons/CoinSvg.vue"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
 

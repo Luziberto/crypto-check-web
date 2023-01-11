@@ -24,7 +24,7 @@
       ref="assetTable"
       @open-modal="openModal"
     />
-    <CryptoDialog
+    <AssetDialog
       v-if="dialog"
       :selected-asset="selectedAsset"
       @close="dialog = false"
@@ -36,15 +36,16 @@
 <script lang="ts" setup>
 
 import { ref, computed, onMounted } from "vue"
-import { Asset } from "@/types/Asset"
-import AssetsTable from "@/components/AssetsTable.vue"
-import CryptoDialog from "@/components/CryptoDialog.vue"
+import { Asset } from "@/types/models/Asset"
+import AssetsTable from "@/components/asset/AssetsTable.vue"
+import AssetDialog from "@/components/asset/AssetDialog.vue"
 import { ALERT_TYPES } from "@/constants/AlertConstants"
-import AssetDataService from "@/services/AssetDataService"
-import Alert from "@/components/global/AlertPopup.vue"
-import LocaleButton from "@/components/global/LocaleButton.vue"
+import Alert from "@/components/common/AlertPopup.vue"
+import LocaleButton from "@/components/common/LocaleButton.vue"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
+import { search as assetSearch } from "@/services/asset"
+import { AxiosError } from "axios"
 
 const localeStore = useLocaleStore()
 const { translate } = storeToRefs(localeStore)
@@ -68,17 +69,20 @@ computed(() => {
   return search.value
 })
 
-const searchAssets = () => {
+
+const searchAssets = async () => {
   if (search.value.length === 0) {
     assetTable.value?.refreshAssets([], true)
     return
   }
-
-  AssetDataService.searchAssets({ search: search.value }).then((response) => {
-    assetTable.value?.refreshAssets(response.data, false)
-  }).catch((e) => {
-    alert.value?.show(e.response.data, ALERT_TYPES.ERROR)
-  })
+  try {
+    const assets = await assetSearch({ search: search.value })
+    assetTable.value?.refreshAssets(assets.data, false)
+  } catch (error) {
+    const err = error as AxiosError
+    const message = Object.values(err.response?.data ?? {}).flat()
+    alert.value?.show(message, ALERT_TYPES.ERROR)
+  }
 }
 
 const openModal = (asset: Asset) => {
