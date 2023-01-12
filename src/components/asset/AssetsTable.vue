@@ -55,52 +55,55 @@
           </tbody>
         </table>
 
-        <div
-          v-for="asset in assets"
-          :key="`${asset.slug}`"
-          class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden"
-          @click="openModal(asset)"
-        >
-          <div class="flex flex-col text-left">
-            <a
-              href="#"
-              class="block px-4 py-4 bg-white hover:bg-gray-50"
-            >
-              <span class="flex space-x-4">
-                <img
-                  class="w-12 h-12 rounded-full"
-                  :src="asset.image"
-                  alt=""
-                >
-                <span class="flex flex-1 space-x-2 truncate">
-                  <span class="flex flex-col text-md text-gray-500 truncate">
-                    <span class="flex flex-col truncate">
-                      {{ asset.name }}
-                      <span class="text-sm text-gray-400">
-                        {{ asset.symbol.toUpperCase() }}
+        <TransitionGroup name="list">
+          <div
+            v-for="asset in assets"
+            :key="`${asset.slug}`"
+            class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden"
+            @click="openModal(asset)"
+          >
+            <div class="flex flex-col text-left">
+              <a
+                href="#"
+                class="block px-4 py-4 bg-white hover:bg-gray-50"
+              >
+                <span class="flex space-x-4">
+                  <img
+                    class="w-12 h-12 rounded-full"
+                    :src="asset.image"
+                    alt=""
+                  >
+                  <span class="flex flex-1 space-x-2 truncate">
+                    <span class="flex flex-col text-md text-gray-500 truncate">
+                      <span class="flex flex-col truncate">
+                        {{ asset.name }}
+                        <span class="text-sm text-gray-400">
+                          {{ asset.symbol.toUpperCase() }}
+                        </span>
                       </span>
+
                     </span>
                   </span>
+                  <div class="flex justify-between w-1/2">
+                    <div class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
+                      <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                      {{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset])
+                      ||
+                      0, currency)}}
+                    </div>
+                    <div class="flex px-2 flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
+                      <span class="text-sm text-gray-400">24h</span>
+                      <span
+                        :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
+                      >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h
+                      }}%</span>
+                    </div>
+                  </div>
                 </span>
-                <RightArrowSvg :width="12" />
-              </span>
-              <div class="flex justify-between pt-2">
-                <span class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
-                  <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                  {{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset]) ||
-  0, currency)
-                  }}
-                </span>
-                <span class="flex flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
-                  <span class="text-sm text-gray-400">24h</span>
-                  <span
-                    :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
-                  >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
-                </span>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
-        </div>
+        </TransitionGroup>
         <Loading v-show="activeInfiniteScroll" />
         <AssetListObserver
           v-if="activeInfiniteScroll"
@@ -121,7 +124,6 @@ import { Asset } from "@/types/models/Asset"
 import { formatCurrency } from "@/utils/NumberUtils"
 import AssetListObserver from "@/components/asset/AssetListObserver.vue"
 import Loading from "@/components/common/LoadingSpin.vue"
-import RightArrowSvg from "@/components/common/Icons/RightArrowSvg.vue"
 import { ref, reactive } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"
@@ -154,9 +156,9 @@ const updateAssets = (asset: Asset) => {
   if (index >= 0) {
     assets[index].price_brl = asset.price_brl
     assets[index].price_usd = asset.price_usd
+    assets[index].price_change_percentage_24h = asset.price_change_percentage_24h
   }
 }
-
 
 const openModal = (asset: Asset) => {
   emit("openModal", asset)

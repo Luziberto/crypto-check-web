@@ -14,7 +14,9 @@
     <button
       class="h-10 bg-green-600 border rounded-md px-2 -py-2 ml-4 mt-auto font-bold text-white hover:bg-green-500"
       @click="getAssetHistory()"
-    >{{ translate.SEARCH }}</button>
+    >
+      {{ translate.SEARCH }}
+    </button>
   </div>
 </template>
 

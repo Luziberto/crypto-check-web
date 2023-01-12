@@ -1,25 +1,46 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <LocaleButton :width="20" />
-    <div class="flex md:grid md:grid-cols-12">
-      <div class="flex flex-1 md:col-start-11 md:col-end-13 m-2">
-        <div class="text-left pb-2 w-full">
-          <label
-            for="search"
-            class="font-bold"
-          >{{ translate.SEARCH }}</label>
-          <input
-            v-model="search"
-            name="search"
-            type="text"
-            class="block w-full py-1 pl-2 pr-10 mt-1 text-sm font-bold placeholder-gray-400 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-green-500 focus:border-green-500 ring-2"
-            @keyup="searchAssets"
+    <div class="flex flex-col bg-gray-300 relative">
+      <div class="flex flex-col lg:flex-row justify-between">
+        <div class="hidden lg:block w-1/3"></div>
+        <div class="flex lg:flex-col justify-center flex-items-center">
+
+          <div class="flex justify-center flex-items-center pt-3 lg:pt-0">
+            <a href="https://matias.ma/nsfw">
+              <CoinSvg :width="32" />
+            </a>
+            <h1 class="flex-1 font-bold text-xl text-black">{{ translate.TITLE }}</h1>
+          </div>
+          <div class="lg:hidden block lg:w-1/3"></div>
+          <LocaleButton
+            :width="20"
+            class="hidden lg:block"
           />
+        </div>
+
+        <div class="flex overflow-clip lg:w-1/3 justify-center lg:justify-end items-center pb-3 m-2">
+          <div class="pb-2">
+            <label
+              for="search"
+              class="text-left font-bold text-black text-sm lg:text-md"
+            >{{ translate.SEARCH }}</label>
+            <input
+              v-model="search"
+              name="search"
+              type="text"
+              autocomplete="off"
+              class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-white font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
+              @keyup="searchAssets"
+            />
+
+          </div>
+          <div class="lg:hidden w-1/3 h-10 pt-3 mt-3">
+            <LocaleButton :width="20" />
+          </div>
         </div>
       </div>
     </div>
-
     <AssetsTable
       ref="assetTable"
       @open-modal="openModal"
@@ -46,6 +67,7 @@ import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
 import { search as assetSearch } from "@/services/asset"
 import { AxiosError } from "axios"
+import CoinSvg from "@/components/common/Icons/CoinSvg.vue"
 
 const localeStore = useLocaleStore()
 const { translate } = storeToRefs(localeStore)
