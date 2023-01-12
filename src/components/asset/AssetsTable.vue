@@ -5,47 +5,53 @@
         <table class="hidden md:block min-w-full divide-y divide-gray-200">
           <thead class="min-w-full divide-y divide-gray-200">
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200 grid lg:grid-cols-2">
-            <tr
-              v-for="asset in assets"
-              :key="`${asset.slug}`"
-              class="flex items-center justify-between cursor-pointer hover:bg-gray-100"
-              @click="openModal(asset)"
-            >
-              <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap flex-1">
-                <div class="flex justify-start">
-                  <img
-                    class="w-12 h-12 rounded-full"
-                    :src="asset.image"
-                    alt=""
-                  >
-                  <span
-                    class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
-                  >
-                    {{ asset.name }}
-                    <span class="text-sm text-gray-400">
-                      {{ asset.symbol.toUpperCase() }}
+          <tbody class="bg-white grid lg:grid-cols-2">
+            <TransitionGroup name="list">
+              <tr
+                v-for="asset in assets"
+                :key="`${asset.slug}`"
+                class="flex items-center justify-between cursor-pointer hover:bg-gray-100"
+                @click="openModal(asset)"
+              >
+
+
+                <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap flex-1 ">
+                  <div class="flex justify-start">
+                    <img
+                      class="w-12 h-12 rounded-full"
+                      :src="asset.image"
+                      alt=""
+                    >
+                    <span
+                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+                    >
+                      {{ asset.name }}
+                      <span class="text-sm text-gray-400">
+                        {{ asset.symbol.toUpperCase() }}
+                      </span>
                     </span>
-                  </span>
-                </div>
-              </td>
-              <td
-                class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
-              >
-                <span class="text-sm text-gray-400">24h</span>
-                <span
-                  :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
-                >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
-              </td>
-              <td
-                class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
-              >
-                <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                <span class="w-40">{{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
-                  keyof Asset]) || 0, currency)
-                }}</span>
-              </td>
-            </tr>
+                  </div>
+                </td>
+                <td
+                  class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+                >
+                  <span class="text-sm text-gray-400">24h</span>
+                  <span
+                    :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
+                  >{{
+                  (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
+                </td>
+                <td
+                  class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+                >
+                  <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                  <span class="w-40">{{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
+                    keyof Asset]) || 0, currency)
+                  }}</span>
+                </td>
+
+              </tr>
+            </TransitionGroup>
           </tbody>
         </table>
 
@@ -157,7 +163,13 @@ const openModal = (asset: Asset) => {
 }
 
 const pushAssets = (newAssets: Asset[]) => {
-  assets.push(...newAssets)
+
+  newAssets.forEach((asset, index) => {
+    setTimeout(() => {
+      assets.push(asset)
+    }, 100 * (index + 1))
+  })
+
   subscribeAssets(newAssets)
 }
 
@@ -183,3 +195,32 @@ const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
 defineExpose({ refreshAssets })
 
 </script>
+
+<style scoped>
+.list-enter-active {
+  animation: bounce;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(100vh);
+  }
+
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-30px);
+  }
+
+  60% {
+    transform: translateY(-15px);
+  }
+}
+</style>
