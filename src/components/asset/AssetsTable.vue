@@ -142,8 +142,16 @@ const emit = defineEmits<{
 
 const options = {
   broadcaster: "pusher",
-  key: import.meta.env.VITE_PUSH_KEY,
-  cluster: "sa1"
+  key: import.meta.env.VITE_PUSHER_KEY,
+  cluster: "sa1",
+  httpHost: import.meta.env.VITE_WEBSOCKET_HTTP_HOST,
+  wsHost: import.meta.env.VITE_WEBSOCKET_WS_HOST,
+  wssPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
+  wsPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
+  enabledTransports: ['ws', 'wss'],
+  forceTLS: import.meta.env.MODE === 'production',
+  disableStats: true,
+  encrypted: true
 }
 
 const echo = new Echo({
@@ -153,6 +161,7 @@ const echo = new Echo({
 
 const updateAssets = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
+  console.log(assets[index])
   if (index >= 0) {
     assets[index].price_brl = asset.price_brl
     assets[index].price_usd = asset.price_usd
