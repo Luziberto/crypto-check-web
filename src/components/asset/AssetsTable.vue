@@ -128,6 +128,7 @@ import { ref, reactive } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
+import { Transport } from "pusher-js/types/src/core/config"
 
 const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
@@ -144,11 +145,10 @@ const options = {
   broadcaster: "pusher",
   key: import.meta.env.VITE_PUSHER_KEY,
   cluster: "sa1",
-  httpHost: import.meta.env.VITE_WEBSOCKET_HTTP_HOST,
   wsHost: import.meta.env.VITE_WEBSOCKET_WS_HOST,
   wssPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
   wsPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
-  enabledTransports: ['ws', 'wss'],
+  enabledTransports: ['ws', 'wss'] as Array<Transport>,
   forceTLS: import.meta.env.MODE === 'production',
   disableStats: true,
   encrypted: true
