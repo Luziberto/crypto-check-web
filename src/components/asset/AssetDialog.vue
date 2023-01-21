@@ -70,10 +70,10 @@
               class="cursor-pointer hover:bg-gray-100"
             >
               <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5 text-gray-900">
-                {{ formatNumber(Number(market_data.price), getCurrency(market_data.fiat)) }}
+                {{ market_data.price }}
               </td>
               <td class="text-center px-6 break-all py-4 text-sm leading-5 text-gray-900">
-                {{ formatNumber(Number(market_data.total_volume), getCurrency(market_data.fiat)) }}
+                {{ market_data.total_volume }}
               </td>
             </tr>
           </tbody>
@@ -87,12 +87,12 @@
           >
             <div class="flex">
               <span class="text-gray-500 w-28">Price: </span>
-              <span>{{ formatNumber(Number(market_data.price), getCurrency(market_data.fiat)) }}</span>
+              <span>{{ market_data.price }}</span>
             </div>
 
             <div class="flex">
               <span class=" text-gray-500 text-sm w-28">Volume 24h: </span>
-              <span class="">{{ formatNumber(Number(market_data.total_volume), getCurrency(market_data.fiat)) }}</span>
+              <span class="">{{ market_data.total_volume }}</span>
             </div>
 
           </li>
@@ -107,7 +107,6 @@ import { ref } from "vue"
 import AssetHistoryForm from "@/components/asset/AssetHistoryForm.vue"
 import { Asset } from "@/types/models/Asset"
 import { AssetHistory } from "@/types/models/AssetHistory"
-import { formatCurrency } from "@/utils/NumberUtils"
 import { getCurrency } from "@/constants/LocaleConstants"
 
 defineProps<{
@@ -128,8 +127,6 @@ const showAssetHistory = (history: AssetHistory) => {
 const close = () => emit("close")
 
 const error = (errors: unknown[]) => emit("error", errors)
-
-const formatNumber = formatCurrency
 
 </script>
 

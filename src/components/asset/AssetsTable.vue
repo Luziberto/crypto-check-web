@@ -45,8 +45,9 @@
                   class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
                 >
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                  <span class="w-40">{{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
-                    keyof Asset]) || 0, currency)
+                  <span class="w-40">{{
+                    asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
+                      keyof Asset]
                   }}</span>
                 </td>
 
@@ -87,9 +88,7 @@
                   <div class="flex justify-between w-1/2">
                     <div class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                      {{ formatNumber(Number(asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset])
-                      ||
-                      0, currency)}}
+                      {{ asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset] }}
                     </div>
                     <div class="flex px-2 flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">24h</span>
@@ -121,16 +120,13 @@
 import Pusher from "pusher-js"
 import Echo from "laravel-echo"
 import { Asset } from "@/types/models/Asset"
-import { formatCurrency } from "@/utils/NumberUtils"
 import AssetListObserver from "@/components/asset/AssetListObserver.vue"
 import Loading from "@/components/common/LoadingSpin.vue"
 import { ref, reactive } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
-import { Transport } from "pusher-js/types/src/core/config"
 
-const formatNumber = formatCurrency
 const assets = reactive<Asset[]>([])
 const activeInfiniteScroll = ref<boolean>(true)
 
@@ -146,12 +142,9 @@ const options = {
   key: import.meta.env.VITE_PUSHER_KEY,
   cluster: "sa1",
   wsHost: import.meta.env.VITE_WEBSOCKET_WS_HOST,
-  wssPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
   wsPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
-  enabledTransports: ['ws', 'wss'] as Array<Transport>,
-  forceTLS: import.meta.env.MODE === 'production',
+  forceTLS: false,
   disableStats: true,
-  encrypted: true
 }
 
 const echo = new Echo({
