@@ -107,7 +107,6 @@ import { ref } from "vue"
 import AssetHistoryForm from "@/components/asset/AssetHistoryForm.vue"
 import { Asset } from "@/types/models/Asset"
 import { AssetHistory } from "@/types/models/AssetHistory"
-import { getCurrency } from "@/constants/LocaleConstants"
 
 defineProps<{
   selectedAsset: Asset

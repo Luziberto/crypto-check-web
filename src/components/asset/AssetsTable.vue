@@ -143,7 +143,7 @@ const options = {
   cluster: "sa1",
   wsHost: import.meta.env.VITE_WEBSOCKET_WS_HOST,
   wsPort: Number(import.meta.env.VITE_WEBSOCKET_PORT),
-  forceTLS: false,
+  forceTLS: !import.meta.env.DEV,
   disableStats: true,
 }
 
@@ -154,7 +154,6 @@ const echo = new Echo({
 
 const updateAssets = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
-  console.log(assets[index])
   if (index >= 0) {
     assets[index].price_brl = asset.price_brl
     assets[index].price_usd = asset.price_usd
