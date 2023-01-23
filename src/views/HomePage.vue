@@ -1,43 +1,46 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <div class="flex flex-col bg-gray-300 relative">
-      <div class="flex flex-col lg:flex-row justify-between">
-        <div class="hidden lg:block w-1/3"></div>
-        <div class="flex lg:flex-col justify-center flex-items-center">
+    <div class="fixed right-1 md:left-10 -top-3">
+      <DarkMode />
+    </div>
+    <div class="flex flex-col lg:flex-row justify-between">
+      <div class="hidden lg:block w-1/3">
+        <!-- <DarkMode /> -->
+      </div>
+      <div class="flex lg:flex-col justify-center flex-items-center">
 
-          <div class="flex justify-center flex-items-center pt-3 lg:pt-0">
-            <a href="https://matias.ma/nsfw">
-              <CoinSvg :width="32" />
-            </a>
-            <h1 class="flex-1 font-bold text-xl text-black">{{ translate.TITLE }}</h1>
-          </div>
-          <div class="lg:hidden block lg:w-1/3"></div>
-          <LocaleButton
-            :width="20"
-            class="hidden lg:block"
-          />
+        <div class="flex justify-center flex-items-center pt-3 lg:pt-0">
+          <a href="https://matias.ma/nsfw">
+            <CoinSvg :width="32" />
+          </a>
+          <h1 class="flex-1 font-bold text-xl">{{ translate.TITLE }}</h1>
         </div>
+        <div class="lg:hidden block lg:w-1/3"></div>
+        <LocaleButton
+          :width="20"
+          class="hidden lg:block"
+        />
+      </div>
 
-        <div class="flex overflow-clip lg:w-1/3 justify-center lg:justify-end items-center pb-3 m-2">
-          <div class="pb-2">
-            <label
-              for="search"
-              class="text-left font-bold text-black text-sm lg:text-md"
-            >{{ translate.SEARCH }}</label>
-            <input
-              v-model="search"
-              name="search"
-              type="text"
-              autocomplete="off"
-              class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-white font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
-              @keyup="searchAssets"
-            />
+      <div class="flex overflow-clip lg:w-1/3 justify-center lg:justify-end items-center pb-3 m-2">
+        <div class="pb-2">
+          <label
+            for="search"
+            class="text-left font-bold text-sm lg:text-md"
+          >{{ translate.SEARCH }}</label>
+          <input
+            v-model="search"
+            name="search"
+            type="text"
+            autocomplete="off"
+            class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-gray-300 font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
+            @keyup="searchAssets"
+          />
 
-          </div>
-          <div class="lg:hidden w-1/3 h-10 pt-3 mt-3">
-            <LocaleButton :width="20" />
-          </div>
+        </div>
+        <div class="lg:hidden flex flex-col w-1/3">
+          <LocaleButton :width="20" />
         </div>
       </div>
     </div>
@@ -60,6 +63,7 @@ import { ref, computed, onMounted } from "vue"
 import { Asset } from "@/types/models/Asset"
 import AssetsTable from "@/components/asset/AssetsTable.vue"
 import AssetDialog from "@/components/asset/AssetDialog.vue"
+import DarkMode from "@/components/common/DarkMode.vue"
 import { ALERT_TYPES } from "@/constants/AlertConstants"
 import Alert from "@/components/common/AlertPopup.vue"
 import LocaleButton from "@/components/common/LocaleButton.vue"

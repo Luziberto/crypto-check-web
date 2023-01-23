@@ -3,19 +3,19 @@
     <div class="grid grid-flow-row -my-2 overflow-x-auto auto-rows-max">
       <div class="overflow-hidden border-b border-gray-200 shadow lg:rounded-lg">
         <table class="hidden md:block min-w-full divide-y divide-gray-200">
-          <thead class="min-w-full divide-y divide-gray-200">
+          <thead class="min-w-full">
           </thead>
-          <tbody class="bg-white grid lg:grid-cols-2">
+          <tbody class="grid lg:grid-cols-2">
             <TransitionGroup name="list">
               <tr
                 v-for="asset in assets"
                 :key="`${asset.slug}`"
-                class="flex items-center justify-between cursor-pointer hover:bg-gray-100"
+                class="flex items-center justify-between cursor-pointer hover:bg-late-300"
                 @click="openModal(asset)"
               >
 
 
-                <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap flex-1 ">
+                <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap flex-1 divide-y divide-gray-200">
                   <div class="flex justify-start">
                     <img
                       class="w-12 h-12 rounded-full"
@@ -23,27 +23,24 @@
                       alt=""
                     >
                     <span
-                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
+                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap text-gray-400 "
                     >
                       {{ asset.name }}
-                      <span class="text-sm text-gray-400">
+                      <span class="text-sm text-gray-500">
                         {{ asset.symbol.toUpperCase() }}
                       </span>
                     </span>
                   </div>
                 </td>
                 <td
-                  class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
-                >
+                  class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">24h</span>
                   <span
                     :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"
                   >{{
                   (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
                 </td>
-                <td
-                  class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 text-gray-900 whitespace-no-wrap"
-                >
+                <td class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
                   <span class="w-40">{{
                     asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
@@ -60,13 +57,13 @@
           <div
             v-for="asset in assets"
             :key="`${asset.slug}`"
-            class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden"
+            class="overflow-hidden shadow lg:hidden border-y border-white"
             @click="openModal(asset)"
           >
-            <div class="flex flex-col text-left">
+            <div class="flex flex-col text-left border-white">
               <a
                 href="#"
-                class="block px-4 py-4 bg-white hover:bg-gray-50"
+                class="block px-4 py-4 hover:bg-late-900"
               >
                 <span class="flex space-x-4">
                   <img
@@ -86,11 +83,13 @@
                     </span>
                   </span>
                   <div class="flex justify-between w-1/2">
-                    <div class="flex flex-col text-left font-bold text- leading-5 text-gray-900 whitespace-no-wrap">
+                    <div class="flex flex-col text-left font-bold text- leading-5 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                      {{ asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof Asset] }}
+                      <span>{{
+                    asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof
+                      Asset] }}</span>
                     </div>
-                    <div class="flex px-2 flex-col text-left font-bold leading-5 text-gray-900 whitespace-no-wrap">
+                    <div class="flex px-2 flex-col text-left font-bold leading-5 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">24h</span>
                       <span
                         :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR}`"

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex justify-center w-full"
+    class="flex justify-center w-full text-center"
     role="group"
   >
     <button
       type="button"
-      :class="`${locale === PT_BR ? 'bg-gray-600' : ''} py-1 px-2 text-sm font-medium text-gray-900 bg-white rounded-l border border-gray-200 hover:bg-gray-100 hover:text-blue-700`"
+      :class="`${locale === PT_BR ? 'bg-gray-600' : 'bg-gray-100'} py-1 px-2 text-sm font-medium text-gray-900 bg-gray-600 rounded-l border border-gray-200`"
       @click="changeLocale(PT_BR, BRL)"
     ><img
         src="/pt_br.svg"
@@ -14,7 +14,7 @@
         class="rounded-sm"
       ></button><button
       type="button"
-      :class="`${locale === EN_US ? 'bg-gray-600' : ''} py-0.5 px-2 text-sm font-medium text-gray-900 rounded-r border-l-0 border border-gray-200 hover:bg-gray-100`"
+      :class="`${locale === EN_US ? 'bg-gray-600' : 'bg-gray-100'} py-1 px-2 text-sm font-medium text-gray-900  rounded-r border-l-0 border border-gray-200`"
       @click="changeLocale(EN_US, USD)"
     ><img
         src="/en_us.svg"

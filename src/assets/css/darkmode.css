@@ -1,0 +1,22 @@
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #213547;
+}
+
+:root {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+#asset-dialog {
+    background-color: var(--bg-color);
+}
+
+input {
+    color: #0d1117;
+}
+
+:root:has(#darkmode-toggle:checked) {
+  --bg-color: #0d1117;
+  --text-color: #ffffff;
+}

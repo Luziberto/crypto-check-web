@@ -1,10 +1,13 @@
 <template>
-  <div class="fixed inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-50">
+  <div
+    class="h-1/3 fixed inset-x-0 top-1/3 min-w-4xl px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-40"
+  >
     <div class="fixed inset-0 transition-opacity">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
     </div>
     <div
-      class="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-4xl sm:w-full sm:p-6"
+      id="asset-dialog"
+      class="h-full relative rounded-lg px-4 py-4 overflow-hidden shadow-xl transform transition-all sm:max-w-4xl sm:w-full sm:p-6"
     >
       <div class="flex items-center justify-between text-xl font-bold">
         <div class="flex items-center">
@@ -48,13 +51,11 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th
-                class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              >
+              <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
                 Price
               </th>
               <th
-                class="px-6 py-3 bg-gray-50 truncate text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                class="px-6 py-3 bg-gray-50 truncate text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer"
               >
                 Volume 24h
               </th>
@@ -62,7 +63,7 @@
           </thead>
           <tbody
             v-if="Object.keys(assetHistory).length"
-            class="bg-white divide-y divide-gray-200"
+            class="divide-y divide-gray-200"
           >
             <tr
               v-for="(market_data, key) in assetHistory.market_data"
@@ -86,12 +87,12 @@
             :key="`asset-history-${key}`"
           >
             <div class="flex">
-              <span class="text-gray-500 w-28">Price: </span>
+              <span class="w-28">Price: </span>
               <span>{{ market_data.price }}</span>
             </div>
 
             <div class="flex">
-              <span class=" text-gray-500 text-sm w-28">Volume 24h: </span>
+              <span class=" text-sm w-28">Volume 24h: </span>
               <span class="">{{ market_data.total_volume }}</span>
             </div>
 
