@@ -102,12 +102,8 @@
             </div>
           </div>
         </TransitionGroup>
-        <Loading v-show="activeInfiniteScroll" />
-        <AssetListObserver
-          v-if="activeInfiniteScroll"
-          @more-data="pushAssets"
-          @finish-data="activeInfiniteScroll = false"
-        />
+        <Loading v-show="showLoading" />
+        <AssetListObserver @more-data="push" />
       </div>
     </div>
 
@@ -121,16 +117,18 @@ import Echo from "laravel-echo"
 import { Asset } from "@/types/models/Asset"
 import AssetListObserver from "@/components/asset/AssetListObserver.vue"
 import Loading from "@/components/common/LoadingSpin.vue"
-import { ref, reactive } from "vue"
+import { ref, reactive, inject, Ref, watch } from "vue"
 import { COLOR_TEXT_CLASS } from "@/constants/ColorConstants"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
 
 const assets = reactive<Asset[]>([])
-const activeInfiniteScroll = ref<boolean>(true)
 
 const localeStore = useLocaleStore()
 const { currency, translate } = storeToRefs(localeStore)
+
+const search = inject<Ref<string>>('search', ref<string>(''))
+const showLoading = ref<boolean>(true)
 
 const emit = defineEmits<{
   (e: "openModal", asset: Asset): void
@@ -151,9 +149,9 @@ const echo = new Echo({
   client: new Pusher(options.key, options)
 })
 
-const updateAssets = (asset: Asset) => {
+const update = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
-  if (index >= 0) {
+  if (index) {
     assets[index].price_brl = asset.price_brl
     assets[index].price_usd = asset.price_usd
     assets[index].price_change_percentage_24h = asset.price_change_percentage_24h
@@ -164,38 +162,37 @@ const openModal = (asset: Asset) => {
   emit("openModal", asset)
 }
 
-const pushAssets = (newAssets: Asset[]) => {
-
+const push = (newAssets: Asset[], lastPage: boolean) => {
+  showLoading.value = !lastPage
   newAssets.forEach((asset, index) => {
     setTimeout(() => {
       assets.push(asset)
-    }, 100 * (index + 1))
+    }, 50 * (index + 1))
   })
 
-  subscribeAssets(newAssets)
+  subscribe(newAssets)
 }
 
-const subscribeAssets = (newAssets: Asset[]) => {
+watch(() => search, () => {
+  clear()
+}, { deep: true })
+
+const clear = () => {
+  unSubscribe(assets)
+  assets.splice(0, assets.length)
+}
+
+const subscribe = (newAssets: Asset[]) => {
   newAssets.forEach(newAsset => {
-    echo.channel(`coin.${newAsset.slug}`).listen(`.asset_price_update`, (data: { asset: Asset }) => { updateAssets(data.asset) })
+    echo.channel(`coin.${newAsset.slug}`).listen(`.asset_price_update`, (data: { asset: Asset }) => { update(data.asset) })
   })
 }
 
-const unSubscribeAssets = (newAssets: Asset[]) => {
+const unSubscribe = (newAssets: Asset[]) => {
   newAssets.forEach(newAsset => {
     echo.leave(`coin.${newAsset.slug}`)
   })
 }
-
-const refreshAssets = (newAssets: Asset[], infiniteScrollState: boolean) => {
-  unSubscribeAssets(assets)
-  assets.splice(0, assets.length)
-  activeInfiniteScroll.value = infiniteScrollState
-  pushAssets(newAssets)
-}
-
-defineExpose({ refreshAssets })
-
 </script>
 
 <style scoped>

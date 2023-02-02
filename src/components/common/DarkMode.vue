@@ -11,7 +11,7 @@
         />
 
         <div class="relative slider bg-gray-300 rounded-full p-1 py-1.5">
-            <div class="absolute bg-black duration-500 rounded-full p-3 top-1">
+            <div class="absolute bg-white duration-500 rounded-full p-3 top-1">
 
             </div>
             <NightSvg
@@ -37,6 +37,7 @@ input:checked+.slider>div {
     -webkit-transform: translateX(2rem);
     -ms-transform: translateX(2rem);
     transform: translateX(2rem);
+    background-color: black;
 
 }
 </style>

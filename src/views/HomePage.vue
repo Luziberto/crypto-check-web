@@ -35,7 +35,6 @@
             type="text"
             autocomplete="off"
             class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-gray-300 font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
-            @keyup="searchAssets"
           />
 
         </div>
@@ -59,7 +58,7 @@
 
 <script lang="ts" setup>
 
-import { ref, computed, onMounted } from "vue"
+import { ref, provide, readonly, computed } from "vue"
 import { Asset } from "@/types/models/Asset"
 import AssetsTable from "@/components/asset/AssetsTable.vue"
 import AssetDialog from "@/components/asset/AssetDialog.vue"
@@ -69,47 +68,19 @@ import Alert from "@/components/common/AlertPopup.vue"
 import LocaleButton from "@/components/common/LocaleButton.vue"
 import { useLocaleStore } from "@/store/locale"
 import { storeToRefs } from "pinia"
-import { search as assetSearch } from "@/services/asset"
-import { AxiosError } from "axios"
 import CoinSvg from "@/components/common/Icons/CoinSvg.vue"
 
 const localeStore = useLocaleStore()
 const { translate } = storeToRefs(localeStore)
 
-const selectedAsset = ref<Asset>({
-  uuid: "",
-  name: "",
-  slug: "",
-  symbol: "",
-  price_brl: "0",
-  price_usd: "0",
-  image: ""
-} as Asset)
+const selectedAsset = ref<Asset>()
 
 const dialog = ref<boolean>(false)
 const search = ref<string>("")
 const assetTable = ref<InstanceType<typeof AssetsTable> | null>(null)
 const alert = ref<InstanceType<typeof Alert> | null>(null)
 
-computed(() => {
-  return search.value
-})
-
-
-const searchAssets = async () => {
-  if (search.value.length === 0) {
-    assetTable.value?.refreshAssets([], true)
-    return
-  }
-  try {
-    const assets = await assetSearch({ search: search.value })
-    assetTable.value?.refreshAssets(assets.data, false)
-  } catch (error) {
-    const err = error as AxiosError
-    const message = Object.values(err.response?.data ?? {}).flat()
-    alert.value?.show(message, ALERT_TYPES.ERROR)
-  }
-}
+provide('search', readonly(search))
 
 const openModal = (asset: Asset) => {
   selectedAsset.value = asset
@@ -119,11 +90,6 @@ const openModal = (asset: Asset) => {
 const error = (errors: unknown[]) => {
   alert.value?.show(errors.map(String), ALERT_TYPES.ERROR)
 }
-
-onMounted(() => {
-
-  searchAssets()
-})
 
 </script>
 

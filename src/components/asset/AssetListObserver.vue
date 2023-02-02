@@ -2,48 +2,45 @@
   <div>
     <Alert ref="alert" />
     <ObserverComponent
-      :options="options"
-      @intersect="getData"
+      ref="observer"
+      @intersect="getAssets"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue"
+import { ref, inject, watch, Ref, onMounted } from "vue"
 import ObserverComponent from "@/components/common/ObserverComponent.vue"
 import Alert from "@/components/common/AlertPopup.vue"
 import { Asset } from "@/types/models/Asset"
 import { ALERT_TYPES } from "@/constants/AlertConstants"
-import { ASSET_CONFIG } from "@/constants/AssetConstants"
-import AssetJson from "@/assets/assets.json"
 import { list as assetList } from "@/services/asset"
+import { getTableScreenProps } from "@/utils/ScreenUtils"
 import { AxiosError } from "axios"
 
-interface Options { page: number, itemsPerPage: number }
+const emit = defineEmits<{
+  (e: "moreData", assets: Asset[], lastPage: boolean): void
+  (e: "finishData"): void
+}>()
 
-const options = reactive<Options>({ page: 1, itemsPerPage: ASSET_CONFIG.ITEMS_PER_PAGE })
+const search = inject<Ref<string>>('search', ref<string>(''))
 const alert = ref<InstanceType<typeof Alert> | null>(null)
+let lastPage = false
 
-const getData = (): void => {
-  const start = (options.page - 1) * options.itemsPerPage
-  const end = options.page * options.itemsPerPage
-  const assetsSlug = AssetJson.sort((a, b) => a.localeCompare(b))
-  const items = assetsSlug.slice(start, end)
+const screen = getTableScreenProps()
+const paginateOptions = ({ page: 1, perPage: screen.itemsPerPage, totalItems: 0, lastPage: 0 })
 
-  if (!items.length) {
-    emit("finishData")
-    return
-  }
+const observer = ref<InstanceType<typeof ObserverComponent> | null>(null)
 
-  getAssets(items)
-}
-
-const getAssets = async (items: Array<string>) => {
+const getAssets = async (isOverViewport = true) => {
+  if (!isOverViewport || (paginateOptions.page !== 1 && lastPage)) return
   try {
-    const assets = await assetList({ assets: items })
-    emit("moreData", assets.data)
-    options.page++
-    options.itemsPerPage++
+    const response = await assetList({ search: search.value, page: paginateOptions.page, perPage: paginateOptions.perPage })
+    paginateOptions.totalItems = response.data.total
+    if (response.data.current_page === response.data.last_page) lastPage = true
+    paginateOptions.lastPage = response.data.last_page
+    emit("moreData", response.data.data, lastPage)
+    paginateOptions.page++
   } catch (error) {
     const err = error as AxiosError
     // let message = [err.message]
@@ -52,9 +49,22 @@ const getAssets = async (items: Array<string>) => {
   }
 }
 
-const emit = defineEmits<{
-  (e: "moreData", assets: Asset[]): void
-  (e: "finishData"): void
-}>()
+onMounted(() => {
+  getAssets()
+})
+
+let searchtimer = 0
+
+watch(() => search.value, () => {
+  paginateOptions.page = 1
+  paginateOptions.totalItems = 0
+  paginateOptions.lastPage = 0
+
+  clearTimeout(searchtimer);
+  searchtimer = setTimeout(() => {
+    getAssets()
+  }, 1000);
+
+}, { deep: true })
 
 </script>

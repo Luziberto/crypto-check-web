@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="h-1/3 fixed inset-x-0 top-1/3 min-w-4xl px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-40"
-  >
-    <div class="fixed inset-0 transition-opacity">
+  <div class="fixed inset-0 flex justify-center">
+    <div class="col-span-none transition-opacity">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
     </div>
     <div
+      v-if="selectedAsset"
       id="asset-dialog"
-      class="h-full relative rounded-lg px-4 py-4 overflow-hidden shadow-xl transform transition-all sm:max-w-4xl sm:w-full sm:p-6"
+      class="relative rounded-lg p-4 shadow-xl my-auto transform transition-all sm:p-6"
     >
       <div class="flex items-center justify-between text-xl font-bold">
         <div class="flex items-center">
@@ -110,7 +109,7 @@ import { Asset } from "@/types/models/Asset"
 import { AssetHistory } from "@/types/models/AssetHistory"
 
 defineProps<{
-  selectedAsset: Asset
+  selectedAsset: Asset | undefined
 }>()
 
 const emit = defineEmits<{
