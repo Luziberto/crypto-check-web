@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <div class="fixed right-1 md:left-10 -top-3">
-      <DarkMode />
-    </div>
-    <div class="flex flex-col lg:flex-row justify-between">
+    <nav class="fixed w-full flex flex-col lg:flex-row justify-between border-b-2 border-gray-300 z-10">
+      <div class="absolute right-1 md:left-10 -top-3">
+        <DarkMode />
+      </div>
       <div class="hidden lg:block w-1/3">
         <!-- <DarkMode /> -->
       </div>
@@ -42,9 +42,10 @@
           <LocaleButton :width="20" />
         </div>
       </div>
-    </div>
+    </nav>
     <AssetsTable
       ref="assetTable"
+      class="mt-36 md:mt-24"
       @open-modal="openModal"
     />
     <AssetDialog
@@ -58,7 +59,7 @@
 
 <script lang="ts" setup>
 
-import { ref, provide, readonly, computed } from "vue"
+import { ref, provide, readonly } from "vue"
 import { Asset } from "@/types/models/Asset"
 import AssetsTable from "@/components/asset/AssetsTable.vue"
 import AssetDialog from "@/components/asset/AssetDialog.vue"

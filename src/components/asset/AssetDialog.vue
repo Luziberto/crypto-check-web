@@ -1,12 +1,12 @@
 <template>
-  <div class="fixed inset-0 flex justify-center">
+  <div class="fixed inset-0 flex justify-center z-20">
     <div class="col-span-none transition-opacity">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
     </div>
     <div
       v-if="selectedAsset"
       id="asset-dialog"
-      class="relative rounded-lg p-4 shadow-xl my-auto transform transition-all sm:p-6"
+      class="relative rounded-lg p-4 shadow-xl my-auto transform transition-all sm:p-6 z-50"
     >
       <div class="flex items-center justify-between text-xl font-bold">
         <div class="flex items-center">
@@ -39,23 +39,21 @@
           </svg>
         </button>
       </div>
-      <div class="flex items-center justify-center py-2 text-xl border-b font-bold">
+      <div class="flex items-center justify-center py-2 text-xl font-bold">
         <AssetHistoryForm
           :asset="selectedAsset"
           @asset-history="showAssetHistory"
           @errors="error"
         />
       </div>
-      <div class="hidden lg:block mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
+      <div class="hidden lg:block mt-4 shadow overflow-hidden sm:rounded-lg border-2 border-gray-300">
+        <table class="min-w-full">
           <thead>
-            <tr>
-              <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
+            <tr class="border-b-2 border-gray-200">
+              <th class="px-6 py-3 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
                 Price
               </th>
-              <th
-                class="px-6 py-3 bg-gray-50 truncate text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer"
-              >
+              <th class="px-6 py-3 truncate text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
                 Volume 24h
               </th>
             </tr>
@@ -67,12 +65,11 @@
             <tr
               v-for="(market_data, key) in assetHistory.market_data"
               :key="`asset-history-${key}`"
-              class="cursor-pointer hover:bg-gray-100"
             >
-              <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5 text-gray-900">
+              <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5">
                 {{ market_data.price }}
               </td>
-              <td class="text-center px-6 break-all py-4 text-sm leading-5 text-gray-900">
+              <td class="text-center px-6 break-all py-4 text-sm leading-5">
                 {{ market_data.total_volume }}
               </td>
             </tr>

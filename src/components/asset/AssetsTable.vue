@@ -10,7 +10,7 @@
               <tr
                 v-for="asset in assets"
                 :key="`${asset.slug}`"
-                class="flex items-center justify-between cursor-pointer hover:bg-late-300"
+                class="flex items-center justify-between cursor-pointer hover:bg-late-300 border-b-2 border-gray-300"
                 @click="openModal(asset)"
               >
 
@@ -23,7 +23,7 @@
                       alt=""
                     >
                     <span
-                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap text-gray-400 "
+                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap crypto-name"
                     >
                       {{ asset.name }}
                       <span class="text-sm text-gray-500">
@@ -57,10 +57,10 @@
           <div
             v-for="asset in assets"
             :key="`${asset.slug}`"
-            class="overflow-hidden shadow lg:hidden border-y border-white"
+            class="overflow-hidden shadow lg:hidden border-y"
             @click="openModal(asset)"
           >
-            <div class="flex flex-col text-left border-white">
+            <div class="flex flex-col text-left">
               <a
                 href="#"
                 class="block px-4 py-4 hover:bg-late-900"
@@ -72,7 +72,7 @@
                     alt=""
                   >
                   <span class="flex flex-1 space-x-2 truncate">
-                    <span class="flex flex-col text-md text-gray-500 truncate">
+                    <span class="flex flex-col text-md truncate">
                       <span class="flex flex-col truncate">
                         {{ asset.name }}
                         <span class="text-sm text-gray-400">

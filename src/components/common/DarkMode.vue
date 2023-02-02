@@ -5,9 +5,11 @@
     >
         <input
             id="darkmode-toggle"
+            ref="toggle"
             name="darkmode-toggle"
             type="checkbox"
             class="opacity-0 h-0 w-0"
+            @change="saveToggle(($event.currentTarget as HTMLInputElement).checked)"
         />
 
         <div class="relative slider bg-gray-300 rounded-full p-1 py-1.5">
@@ -24,8 +26,23 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import NightSvg from "@/components/common/Icons/NightSvg.vue"
 
+const toggle = ref<HTMLInputElement | null>()
+
+const loadToggle = () => {
+    const value = localStorage.getItem('darMode')
+    if (toggle.value) toggle.value.checked = Boolean(value)
+}
+
+const saveToggle = (value: boolean | null) => {
+    localStorage.setItem('darMode', value ? value.toString() : '')
+}
+
+onMounted(() => {
+    loadToggle()
+})
 </script>
 
 <style scoped>
