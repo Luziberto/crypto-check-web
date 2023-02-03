@@ -15,7 +15,7 @@
               >
 
 
-                <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap flex-1 divide-y divide-gray-200">
+                <td class="px-4 py-2 text-sm leading-5 whitespace-no-wrap flex-1 divide-y divide-gray-200">
                   <div class="flex justify-start">
                     <img
                       class="w-12 h-12 rounded-full"
