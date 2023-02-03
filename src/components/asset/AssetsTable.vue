@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
-    <div class="grid grid-flow-row -my-2 overflow-x-auto auto-rows-max">
-      <div class="overflow-hidden border-b border-gray-200 shadow lg:rounded-lg">
+    <div class="grid grid-flow-row overflow-x-auto auto-rows-max">
+      <div class="relative overflow-hidden border-b border-gray-200 shadow lg:rounded-lg">
         <table class="hidden md:block min-w-full divide-y divide-gray-200">
           <thead class="min-w-full">
           </thead>
@@ -53,6 +53,13 @@
           </tbody>
         </table>
 
+        <div
+          v-show="!showLoading && !assets.length"
+          class="fixed inset-0 flex items-center justify-center"
+        >
+          <h2 class="text-xl">{{ translate.NO_RESULTS }} :(</h2>
+        </div>
+
         <TransitionGroup name="list">
           <div
             v-for="asset in assets"
@@ -103,10 +110,12 @@
           </div>
         </TransitionGroup>
         <Loading v-show="showLoading" />
-        <AssetListObserver @more-data="push" />
+        <AssetListObserver
+          @more-data="push"
+          @finish-data="(isLastPage) => showLoading = !isLastPage"
+        />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -162,8 +171,7 @@ const openModal = (asset: Asset) => {
   emit("openModal", asset)
 }
 
-const push = (newAssets: Asset[], lastPage: boolean) => {
-  showLoading.value = !lastPage
+const push = (newAssets: Asset[]) => {
   newAssets.forEach((asset, index) => {
     setTimeout(() => {
       assets.push(asset)

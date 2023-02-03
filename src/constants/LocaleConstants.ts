@@ -14,7 +14,8 @@ export interface Currency {
 export interface Translate {
   TITLE: string,
   SEARCH: string,
-  CURRENT_PRICE: string
+  CURRENT_PRICE: string,
+  NO_RESULTS: string
 }
 
 export enum PT_BR_CURRENCY {
@@ -36,13 +37,15 @@ export enum EN_US_CURRENCY {
 export enum PT_BR_TRANSLATE {
   TITLE = "Lista de criptomoedas",
   SEARCH = "Buscar",
-  CURRENT_PRICE = "Preço Atual"
+  CURRENT_PRICE = "Preço Atual",
+  NO_RESULTS = "Sem Resultados"
 }
 
 export enum EN_US_TRANSLATE {
   TITLE = "Crypto list",
   SEARCH = "Search",
-  CURRENT_PRICE = "Current Price"
+  CURRENT_PRICE = "Current Price",
+  NO_RESULTS = "No Results"
 }
 
 export function getCurrency(locale: string) : Currency {

@@ -19,13 +19,13 @@ import { getTableScreenProps } from "@/utils/ScreenUtils"
 import { AxiosError } from "axios"
 
 const emit = defineEmits<{
-  (e: "moreData", assets: Asset[], lastPage: boolean): void
-  (e: "finishData"): void
+  (e: "moreData", assets: Asset[]): void
+  (e: "finishData", isLastPage: boolean): void
 }>()
 
 const search = inject<Ref<string>>('search', ref<string>(''))
 const alert = ref<InstanceType<typeof Alert> | null>(null)
-let lastPage = false
+let isLastPage = false
 
 const screen = getTableScreenProps()
 const paginateOptions = ({ page: 1, perPage: screen.itemsPerPage, totalItems: 0, lastPage: 0 })
@@ -33,13 +33,14 @@ const paginateOptions = ({ page: 1, perPage: screen.itemsPerPage, totalItems: 0,
 const observer = ref<InstanceType<typeof ObserverComponent> | null>(null)
 
 const getAssets = async (isOverViewport = true) => {
-  if (!isOverViewport || (paginateOptions.page !== 1 && lastPage)) return
+  if (!isOverViewport || (paginateOptions.page !== 1 && isLastPage)) return
   try {
     const response = await assetList({ search: search.value, page: paginateOptions.page, perPage: paginateOptions.perPage })
     paginateOptions.totalItems = response.data.total
-    if (response.data.current_page === response.data.last_page) lastPage = true
+    isLastPage = response.data.current_page === response.data.last_page
     paginateOptions.lastPage = response.data.last_page
-    emit("moreData", response.data.data, lastPage)
+    emit("moreData", response.data.data)
+    emit("finishData", isLastPage)
     paginateOptions.page++
   } catch (error) {
     const err = error as AxiosError
@@ -60,10 +61,12 @@ watch(() => search.value, () => {
   paginateOptions.totalItems = 0
   paginateOptions.lastPage = 0
 
-  clearTimeout(searchtimer);
+  emit("finishData", false)
+
+  clearTimeout(searchtimer)
   searchtimer = setTimeout(() => {
     getAssets()
-  }, 1000);
+  }, 1000)
 
 }, { deep: true })
 
