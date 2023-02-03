@@ -42,7 +42,7 @@
                 </td>
                 <td class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                  <span class="w-40">{{
+                  <span class="w-40 md:w-48">{{
                     asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as
                       keyof Asset]
                   }}</span>
@@ -92,7 +92,7 @@
                   <div class="flex justify-between w-1/2">
                     <div class="flex flex-col text-left font-bold text- leading-5 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                      <span>{{
+                      <span class="break-all">{{
                     asset[('price_' + currency.FIAT_NAME.toLocaleLowerCase()) as keyof
                       Asset] }}</span>
                     </div>
