@@ -1,16 +1,17 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <nav class="fixed w-full flex flex-col lg:flex-row justify-between border-b-2 border-gray-300 z-10">
-      <div class="absolute right-1 md:left-10 -top-3">
+    <nav class="fixed w-full flex flex-col lg:flex-row justify-between border-gray-300 z-10">
+
+      <div class="absolute right-2 md:left-10 -top-3">
         <DarkMode />
       </div>
       <div class="hidden lg:block w-1/3">
         <!-- <DarkMode /> -->
       </div>
-      <div class="flex lg:flex-col justify-center flex-items-center">
+      <div class="flex lg:flex-col justify-around md:justify-center flex-items-center">
 
-        <div class="flex justify-center flex-items-center pt-3 lg:pt-0">
+        <div class="flex flex-items-center pt-3 lg:pt-0">
           <a href="https://matias.ma/nsfw">
             <CoinSvg :width="32" />
           </a>
