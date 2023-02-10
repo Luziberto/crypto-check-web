@@ -5,22 +5,34 @@ This is the project for the `Crypto check` website.
 
 ## Requirements
 
-Make sure you have all this installed:
-
-- `node`
-- `yarn` or `npm`
+- :rocket: `Node 16.x.x`
+- :hammer: `yarn` or `npm`
 
 ## Stack
 
-This project uses the following stack:
+- :rocket: [Node](https://nodejs.org)
+- :recycle: [Vue 3](https://vuejs.org)
+- 🦾 [TypeScript](https://www.typescriptlang.org)
+- ⚡️ [Vite](https://vitejs.dev)
+- 🍍 [Pinia](https://pinia.esm.dev)
+- :leaves: [Tailwind](https://tailwindcss.com)
 
-- Node 16.x.x
-- Vue 3
-- Typescript
-- Vite
-- Pinia
-- Tailwind
-- EsLint
+## Recommendation
+
+### IDE
+
+- :bulb: VS Code
+
+### Dev tools
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [VS Code Extensions](./.vscode/extensions.json)
+  - [Vite](https://marketplace.visualstudio.com/items?itemName=antfu.vite) - Fire up Vite server automatically
+  - [Volar](https://marketplace.visualstudio.com/items?itemName=vue.volar) - Vue 3 `<script setup>` IDE support
+  - [Vue Typescript](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) - Vue 3 typescript IDE support
+  - [Tailwind Css IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - IDE support for tailwind CSS
+  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## How to run
 

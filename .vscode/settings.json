@@ -1,0 +1,113 @@
+{
+  // This goes into your VSCode settings.json (or workspace settings in .vscode/settings.json)
+
+  /*
+   * File-related configs and settings
+   *
+   */
+
+  // Show file paths in status bar
+  // Requires ActiveFileInStatusBar VSCode extension
+  "scss.lint.unknownAtRules": "ignore",
+  // File/folder exclusion from workspace visibility in IDE
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true,
+    "amplify/.config": true,
+    "amplify/**/*-parameters.json": true,
+    "amplify/**/amplify.state": true,
+    "amplify/**/transform.conf.json": true,
+    "amplify/#current-cloud-backend": true,
+    "amplify/backend/amplify-meta.json": true,
+    "amplify/backend/awscloudformation": true
+  },
+
+  // Custom file associations
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.template": "yaml"
+  },
+
+  /*
+   * TypeScript + JavaScript language configs and settings
+   *
+   */
+
+  // Lock VSCode typescript version to project typescript
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+
+  // Configure formatting --> then --> linting IN SEQUENCE
+  // Requires "Format Code Action" VSCode Extension
+  "[typescript, javascript]": {
+    "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+    "editor.defaultFormatter": "Vue.volar",
+    "editor.formatOnSave": true
+  },
+
+  // ESLint settings - runs with "source.fixAll.eslint"
+  "eslint.debug": false,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "configFile": "./packages/client/.eslintrc.js",
+    "maxLineCount": 20
+  },
+  "eslint.probe": ["javascript", "typescript", "vue"],
+  "eslint.validate": ["javascript", "typescript", "vue"],
+
+  /*
+   * Vue language support configs and settings
+   *
+   */
+
+  "[vue]": {
+    "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  // We use Volar instead of Vetur because it's faster, cleaner, and simpler
+  "volar.icon.preview": true,
+
+  // VScode Editor settings
+  // Workbench settings & customization
+  "workbench.colorCustomizations": {
+    "editor.selectionBackground": "#135564",
+    "editor.selectionHighlightBackground": "#135564",
+    "editorRuler.foreground": "#42B883",
+    "editorSuggestWidget.selectedBackground": "#F9A620",
+    "list.activeSelectionBackground": "#495057",
+    "list.activeSelectionForeground": "#8d99ae",
+    "list.focusBackground": "#ff0000",
+    "list.hoverForeground": "#ffffff",
+    "tab.activeBackground": "#135564"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "string.quoted.single",
+        "settings": {
+          "foreground": "#0597a6"
+        }
+      },
+      {
+        // works for a language that recognizes backticks as string templates
+        "scope": "string.template",
+        "settings": {
+          "foreground": "#0597a6"
+        }
+      },
+      {
+        "scope": "punctuation.definition.template-expression.begin, punctuation.definition.template-expression.end",
+        "settings": {
+          "foreground": "#09cbdd"
+        }
+      }
+    ]
+  },
+  "workbench.colorTheme": "Vue Theme",
+  // Misc settings
+  "git.ignoreLimitWarning": true,
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": false
+}
