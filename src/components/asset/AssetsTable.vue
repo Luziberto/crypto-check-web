@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col">
     <div class="grid grid-flow-row overflow-x-auto auto-rows-max">
-      <div class="relative overflow-hidden border-b border-gray-200 shadow lg:rounded-lg">
+      <div
+        class="relative overflow-hidden border-b border-gray-200 shadow lg:rounded-lg"
+      >
         <table class="hidden md:block min-w-full divide-y divide-gray-200">
           <thead class="min-w-full" />
           <tbody class="grid lg:grid-cols-2">
@@ -12,7 +14,9 @@
                 class="flex items-center justify-between cursor-pointer hover:bg-late-300 border-b-2 border-gray-300"
                 @click="openModal(asset)"
               >
-                <td class="px-4 py-2 text-sm leading-5 whitespace-no-wrap flex-1 divide-y divide-gray-200">
+                <td
+                  class="px-4 py-2 text-sm leading-5 whitespace-no-wrap flex-1 divide-y divide-gray-200"
+                >
                   <div class="flex justify-start">
                     <img
                       class="w-12 h-12 rounded-full"
@@ -34,13 +38,22 @@
                 >
                   <span class="text-sm text-gray-400">24h</span>
                   <span
-                    :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
+                    :class="`text-md ${
+                      asset.price_change_percentage_24h > 0
+                        ? COLOR_TEXT_CLASS.SUCCESS
+                        : COLOR_TEXT_CLASS.ERROR
                     }`"
-                  >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h
+                  >{{
+                    (asset.price_change_percentage_24h > 0 ? '+' : '') +
+                      asset.price_change_percentage_24h
                   }}%</span>
                 </td>
-                <td class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap">
-                  <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                <td
+                  class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap"
+                >
+                  <span class="text-sm text-gray-400">{{
+                    translate.CURRENT_PRICE
+                  }}</span>
                   <span class="w-40 md:w-48">
                     {{ asset.market_cap[currency.FIAT_NAME].current_price }}
                   </span>
@@ -66,10 +79,7 @@
             @click="dropdownToggle(asset)"
           >
             <div class="flex flex-col text-left">
-              <a
-                href="#"
-                class="block px-4 py-4 hover:bg-late-900"
-              >
+              <a href="#" class="block px-4 py-4 hover:bg-late-900">
                 <div class="flex space-x-4">
                   <img
                     class="w-12 h-12 rounded-full"
@@ -87,19 +97,31 @@
                     </div>
                   </div>
                   <div class="flex justify-between w-1/2">
-                    <div class="flex flex-col text-left font-bold text- leading-5 whitespace-no-wrap">
-                      <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
+                    <div
+                      class="flex flex-col text-left font-bold text- leading-5 whitespace-no-wrap"
+                    >
+                      <span class="text-sm text-gray-400">{{
+                        translate.CURRENT_PRICE
+                      }}</span>
                       <span class="break-all">{{
                         asset.market_cap[currency.FIAT_NAME].current_price
                       }}</span>
                     </div>
-                    <div class="flex px-2 flex-col text-left font-bold leading-5 whitespace-no-wrap">
+                    <div
+                      class="flex px-2 flex-col text-left font-bold leading-5 whitespace-no-wrap"
+                    >
                       <span class="text-sm text-gray-400">24h</span>
                       <h4
-                        :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
+                        :class="`text-md ${
+                          asset.price_change_percentage_24h > 0
+                            ? COLOR_TEXT_CLASS.SUCCESS
+                            : COLOR_TEXT_CLASS.ERROR
                         }`"
                       >
-                        {{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%
+                        {{
+                          (asset.price_change_percentage_24h > 0 ? '+' : '') +
+                            asset.price_change_percentage_24h
+                        }}%
                       </h4>
                     </div>
                   </div>
@@ -109,10 +131,7 @@
           </div>
         </TransitionGroup>
         <Loading v-show="showLoading" />
-        <AssetDropdown
-          ref="assetDropdownRef"
-          :asset="selectedAsset"
-        />
+        <AssetDropdown ref="assetDropdownRef" :asset="selectedAsset" />
         <AssetListObserver
           @more-data="push"
           @finish-data="(isLastPage: boolean) => showLoading = !isLastPage"
@@ -133,6 +152,7 @@ import Loading from '@/components/common/LoadingSpin.vue'
 import AssetListObserver from '@/components/asset/AssetListObserver.vue'
 import { useLocaleStore } from '@/store/locale'
 import { storeToRefs } from 'pinia'
+import Pusher from 'pusher-js'
 
 const assets = reactive<Asset[]>([])
 const assetDropdownRef = ref<InstanceType<typeof AssetDropdown>>()
@@ -176,16 +196,19 @@ const options = {
 }
 
 const echo = new Echo({
-  // ...options,
-  // client: new Pusher(options.key, options)
+  ...options,
+  client: new Pusher(options.key, options),
 })
 
 const update = (asset: Asset) => {
   const index = assets.findIndex(item => item.slug === asset.slug)
   if (index) {
-    assets[index].market_cap.brl.current_price = asset.market_cap.brl.current_price
-    assets[index].market_cap.usd.current_price = asset.market_cap.usd.current_price
-    assets[index].price_change_percentage_24h = asset.price_change_percentage_24h
+    assets[index].market_cap.brl.current_price =
+      asset.market_cap.brl.current_price
+    assets[index].market_cap.usd.current_price =
+      asset.market_cap.usd.current_price
+    assets[index].price_change_percentage_24h =
+      asset.price_change_percentage_24h
   }
 }
 
@@ -218,9 +241,11 @@ const clear = () => {
 
 const subscribe = (newAssets: Asset[]) => {
   newAssets.forEach(newAsset => {
-    echo.channel(`coin.${newAsset.slug}`).listen(`.asset_price_update`, (data: { asset: Asset }) => {
-      update(data.asset)
-    })
+    echo
+      .channel(`coin.${newAsset.slug}`)
+      .listen(`.asset_price_update`, (data: { asset: Asset }) => {
+        update(data.asset)
+      })
   })
 }
 
@@ -233,7 +258,9 @@ const unSubscribe = (newAssets: Asset[]) => {
 const dropdownToggle = async (asset: Asset) => {
   selectedAsset.value = asset
   await assetDropdownRef.value?.toggle(asset).then(() => {
-    document.getElementById(asset.slug)?.appendChild(assetDropdownRef.value?.$el)
+    document
+      .getElementById(asset.slug)
+      ?.appendChild(assetDropdownRef.value?.$el)
   })
 }
 </script>
