@@ -15,7 +15,7 @@
         alt="English"
         :width="width"
         class="rounded-sm"
-      >
+      />
     </button><button
       type="button"
       :class="`${
@@ -28,7 +28,7 @@
         alt="Português do Brasil"
         :width="width"
         class="rounded-sm"
-      >
+      />
     </button>
   </div>
 </template>

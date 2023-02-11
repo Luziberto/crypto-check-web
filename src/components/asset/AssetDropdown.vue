@@ -1,6 +1,9 @@
 <template>
   <Transition name="dropdown">
-    <div v-show="active" class="grid grid-cols-2">
+    <div
+      v-show="active"
+      class="grid grid-cols-2"
+    >
       <ul>
         <li>price</li>
         <li>
@@ -21,6 +24,8 @@ const localeStore = useLocaleStore()
 const { currency } = storeToRefs(localeStore)
 
 const active = ref(false)
+
+
 
 const latestAsset = ref({
   uuid: '',

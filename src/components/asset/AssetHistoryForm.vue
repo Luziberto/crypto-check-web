@@ -9,7 +9,7 @@
         min="2015-01-01"
         :max="format(new Date(), 'yyyy-MM-dd')"
         class="block bg-gray-300 w-full py-2 pl-2 pr-10 mt-1 text-sm font-bold placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-green-500 focus:border-green-500 ring-2"
-      >
+      />
     </div>
     <button
       class="h-10 bg-green-600 border text-white rounded-md px-2 -py-2 ml-4 mt-auto font-bold hover:bg-late-500"

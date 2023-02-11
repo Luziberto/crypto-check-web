@@ -3,9 +3,11 @@ export const PT_BR = 'PT_BR'
 export const USD = 'USD'
 export const EN_US = 'EN_US'
 
+type CurrencyKey = 'brl' | 'usd'
+
 export interface Currency {
   FIAT_SYMBOL: string
-  FIAT_NAME: string
+  FIAT_NAME: CurrencyKey
   FLOAT_SEPARATOR: string
   THOUSAND_SEPARATOR: string
   LOCALE: string

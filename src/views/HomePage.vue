@@ -34,7 +34,7 @@
             type="text"
             autocomplete="off"
             class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-gray-300 font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
-          >
+          />
         </div>
         <div class="md:hidden mt-auto pb-1">
           <LocaleButton :width="20" />

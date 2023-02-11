@@ -10,7 +10,7 @@
       type="checkbox"
       class="opacity-0 h-0 w-0"
       @change="saveToggle(($event.currentTarget as HTMLInputElement).checked)"
-    >
+    />
 
     <div class="relative slider bg-gray-300 rounded-full p-1 py-1.5">
       <div class="absolute bg-white duration-500 rounded-full p-3 top-1" />

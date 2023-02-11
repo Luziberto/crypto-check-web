@@ -11,10 +11,22 @@
   },
   "plugins": [],
   "rules": {
+    "vue/html-self-closing": [
+      "warn",
+      {
+        "html": {
+          "void": "always",
+          "normal": "always",
+          "component": "always"
+        },
+        "svg": "always",
+        "math": "always"
+      }
+    ],
     "@typescript-eslint/semi": "off",
     "semi": ["warn", "never"],
     "indent": ["warn", 2],
-    "linebreak-style": ["error", "unix"],
+    // "linebreak-style": ["error", "unix"],
     "vue/singleline-html-element-content-newline": "off",
     "vue/max-attributes-per-line": [
       "warn",

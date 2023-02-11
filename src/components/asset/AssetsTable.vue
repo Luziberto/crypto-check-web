@@ -18,7 +18,7 @@
                       class="w-12 h-12 rounded-full"
                       :src="asset.image"
                       alt=""
-                    >
+                    />
                     <span
                       class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap crypto-name"
                     >
@@ -34,10 +34,10 @@
                 >
                   <span class="text-sm text-gray-400">24h</span>
                   <span
-                    :class="`text-md ${
-                      asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
+                    :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
                     }`"
-                  >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%</span>
+                  >{{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h
+                  }}%</span>
                 </td>
                 <td class="flex flex-col text-end px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap">
                   <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
@@ -75,7 +75,7 @@
                     class="w-12 h-12 rounded-full"
                     :src="asset.image"
                     alt=""
-                  >
+                  />
                   <div class="flex flex-1 space-x-2 truncate">
                     <div class="flex flex-col text-md truncate">
                       <h2 class="flex flex-col truncate">
@@ -89,13 +89,14 @@
                   <div class="flex justify-between w-1/2">
                     <div class="flex flex-col text-left font-bold text- leading-5 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">{{ translate.CURRENT_PRICE }}</span>
-                      <span class="break-all">{{ asset.market_cap[currency.FIAT_NAME].current_price }}</span>
+                      <span class="break-all">{{
+                        asset.market_cap[currency.FIAT_NAME].current_price
+                      }}</span>
                     </div>
                     <div class="flex px-2 flex-col text-left font-bold leading-5 whitespace-no-wrap">
                       <span class="text-sm text-gray-400">24h</span>
                       <h4
-                        :class="`text-md ${
-                          asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
+                        :class="`text-md ${asset.price_change_percentage_24h > 0 ? COLOR_TEXT_CLASS.SUCCESS : COLOR_TEXT_CLASS.ERROR
                         }`"
                       >
                         {{ (asset.price_change_percentage_24h > 0 ? '+' : '') + asset.price_change_percentage_24h }}%

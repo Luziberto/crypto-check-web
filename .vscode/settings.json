@@ -61,7 +61,7 @@
   "[vue]": {
     "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll"],
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "Vue.volar",
     "editor.formatOnSave": true
   },
 

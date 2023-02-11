@@ -9,7 +9,7 @@
     >
       <div class="flex items-center justify-between text-xl font-bold">
         <div class="flex items-center">
-          <img class="w-12" :src="selectedAsset.image">
+          <img class="w-12" :src="selectedAsset.image" />
           <span class="px-2">
             {{ selectedAsset.name }}
           </span>
@@ -83,12 +83,12 @@ import { Asset } from '@/types/models/Asset'
 import { AssetHistory } from '@/types/models/AssetHistory'
 
 defineProps<{
-  selectedAsset: Asset | undefined;
+  selectedAsset: Asset | undefined
 }>()
 
 const emit = defineEmits<{
-  (e: 'close'): void;
-  (e: 'error', errors: unknown[]): void;
+  (e: 'close'): void
+  (e: 'error', errors: unknown[]): void
 }>()
 
 const assetHistory = ref<AssetHistory>({} as AssetHistory)
