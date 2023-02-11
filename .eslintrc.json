@@ -5,7 +5,7 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["plugin:vue/vue3-recommended", "eslint:recommended", "@vue/typescript/recommended", "prettier"],
+  "extends": ["plugin:vue/vue3-recommended", "eslint:recommended", "@vue/typescript/recommended"],
   "parserOptions": {
     "ecmaVersion": 2021
   },
@@ -13,6 +13,17 @@
   "rules": {
     "@typescript-eslint/semi": "off",
     "semi": ["warn", "never"],
-    "indent": ["warn", 2]
+    "indent": ["warn", 2],
+    "linebreak-style": ["error", "unix"],
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/max-attributes-per-line": [
+      "warn",
+      {
+        "singleline": 20,
+        "multiline": {
+          "max": 1
+        }
+      }
+    ]
   }
 }

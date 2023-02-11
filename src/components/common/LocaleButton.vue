@@ -5,18 +5,25 @@
   >
     <button
       type="button"
-      :class="`${locale === PT_BR ? 'bg-gray-600' : 'bg-gray-100'} py-1 px-2 text-sm font-medium text-gray-900 bg-gray-600 rounded-l border border-gray-200`"
+      :class="`${
+        locale === PT_BR ? 'bg-gray-600' : 'bg-gray-100'
+      } py-1 px-2 text-sm font-medium text-gray-900 bg-gray-600 rounded-l border border-gray-200`"
       @click="changeLocale(PT_BR, BRL)"
-    ><img
+    >
+      <img
         src="/pt_br.svg"
         alt="English"
         :width="width"
         class="rounded-sm"
-      ></button><button
+      >
+    </button><button
       type="button"
-      :class="`${locale === EN_US ? 'bg-gray-600' : 'bg-gray-100'} py-1 px-2 text-sm font-medium text-gray-900  rounded-r border-l-0 border border-gray-200`"
+      :class="`${
+        locale === EN_US ? 'bg-gray-600' : 'bg-gray-100'
+      } py-1 px-2 text-sm font-medium text-gray-900  rounded-r border-l-0 border border-gray-200`"
       @click="changeLocale(EN_US, USD)"
-    ><img
+    >
+      <img
         src="/en_us.svg"
         alt="Português do Brasil"
         :width="width"
@@ -27,19 +34,18 @@
 </template>
 
 <script lang="ts" setup>
-import { BRL, USD, PT_BR, EN_US } from "@/constants/LocaleConstants"
-import { useLocaleStore } from "@/store/locale"
-import { storeToRefs } from "pinia"
+import { BRL, USD, PT_BR, EN_US } from '@/constants/LocaleConstants'
+import { useLocaleStore } from '@/store/locale'
+import { storeToRefs } from 'pinia'
 
 const localeStore = useLocaleStore()
 const { locale } = storeToRefs(localeStore)
 
 defineProps<{
-  width: number
-}>()
+    width: number
+  }>()
 
 const changeLocale = (locale: string, fiat: string) => {
   localeStore.changeLocale(locale, fiat)
 }
 </script>
-

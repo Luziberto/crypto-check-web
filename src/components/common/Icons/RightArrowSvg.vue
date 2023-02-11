@@ -16,6 +16,6 @@
 </template>
 <script lang="ts" setup>
 defineProps<{
-  width: number
-}>()
+    width: number
+  }>()
 </script>

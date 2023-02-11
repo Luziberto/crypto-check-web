@@ -1,11 +1,12 @@
 {
   "singleQuote": true,
-  "semi": false,
+  "semi": true,
   "trailingComma": "all",
-  "tabWidth": 2,
   "printWidth": 120,
-  "endOfLine": "auto",
+  "endOfLine": "lf",
   "arrowParens": "avoid",
   "htmlWhitespaceSensitivity": "css",
-  "vueIndentScriptAndStyle": true
+  "vueIndentScriptAndStyle": false,
+  "prettier.useTabs": false,
+  "tabWidth": 2
 }

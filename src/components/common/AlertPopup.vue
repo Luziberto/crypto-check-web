@@ -8,7 +8,9 @@
       {{ !type ? 'Request Error' : 'Request Success' }}
     </div>
     <div
-      :class="`border border-t-0 px-4 py-3 rounded-b ${!type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'}`"
+      :class="`border border-t-0 px-4 py-3 rounded-b ${
+        !type ? 'border-red-400 bg-red-100 text-red-700' : 'border-green-400 bg-green-100 text-green-700'
+      }`"
     >
       <ul>
         <li
@@ -36,22 +38,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref } from 'vue'
 
 const hide = ref(true as boolean)
 const messages = ref([] as Array<string>)
 const type = ref(1 as number)
 
-interface Type {
-  ERROR: number,
-  SUCCESS: number
-}
+  interface Type {
+    ERROR: number
+    SUCCESS: number
+  }
 
 const types: Type = { ERROR: 0, SUCCESS: 1 }
 
 const show = (messagesForShow: Array<string>, typeSlug?: string) => {
   messages.value = messagesForShow
-  const alertType = typeSlug ? types[typeSlug as keyof Type] : types["SUCCESS" as keyof Type]
+  const alertType = typeSlug ? types[typeSlug as keyof Type] : types['SUCCESS' as keyof Type]
   type.value = alertType
   hide.value = false
   setTimeout(() => {
@@ -59,6 +61,6 @@ const show = (messagesForShow: Array<string>, typeSlug?: string) => {
   }, 5000)
 }
 defineExpose({
-  show
+  show,
 })
 </script>

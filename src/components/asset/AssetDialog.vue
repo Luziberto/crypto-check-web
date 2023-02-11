@@ -1,28 +1,21 @@
 <template>
   <div class="fixed inset-0 flex justify-center z-20">
     <div class="col-span-none transition-opacity">
-      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      <div class="absolute inset-0 bg-gray-500 opacity-75" />
     </div>
     <div
       v-if="selectedAsset"
-      id="asset-dialog"
-      class="relative rounded-lg p-4 shadow-xl my-auto transform transition-all sm:p-6 z-50"
+      class="container relative rounded-lg p-4 shadow-xl my-auto transform transition-all w-full mx-2 md:w-1/2 sm:p-6 z-50"
     >
       <div class="flex items-center justify-between text-xl font-bold">
         <div class="flex items-center">
-          <img
-            class="w-12"
-            :src="selectedAsset.image"
-          />
+          <img class="w-12" :src="selectedAsset.image">
           <span class="px-2">
             {{ selectedAsset.name }}
           </span>
         </div>
 
-        <button
-          class="fill-current h-5 w-5 font-3xl font-bold"
-          @click="close"
-        >
+        <button class="fill-current h-5 w-5 font-3xl font-bold" @click="close">
           <span class="sr-only">Close</span>
           <svg
             class="h-5 w-5"
@@ -40,32 +33,20 @@
         </button>
       </div>
       <div class="flex items-center justify-center py-2 text-xl font-bold">
-        <AssetHistoryForm
-          :asset="selectedAsset"
-          @asset-history="showAssetHistory"
-          @errors="error"
-        />
+        <AssetHistoryForm :asset="selectedAsset" @asset-history="showAssetHistory" @errors="error" />
       </div>
       <div class="hidden lg:block mt-4 shadow overflow-hidden sm:rounded-lg border-2 border-gray-300">
         <table class="min-w-full">
           <thead>
             <tr class="border-b-2 border-gray-200">
-              <th class="px-6 py-3 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
-                Price
-              </th>
+              <th class="px-6 py-3 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">Price</th>
               <th class="px-6 py-3 truncate text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
                 Volume 24h
               </th>
             </tr>
           </thead>
-          <tbody
-            v-if="Object.keys(assetHistory).length"
-            class="divide-y divide-gray-200"
-          >
-            <tr
-              v-for="(market_data, key) in assetHistory.market_data"
-              :key="`asset-history-${key}`"
-            >
+          <tbody v-if="Object.keys(assetHistory).length" class="divide-y divide-gray-200">
+            <tr v-for="(market_data, key) in assetHistory.market_data" :key="`asset-history-${key}`">
               <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5">
                 {{ market_data.price }}
               </td>
@@ -78,20 +59,16 @@
       </div>
       <div class="shadow lg:hidden">
         <ul class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden">
-          <li
-            v-for="(market_data, key) in assetHistory.market_data"
-            :key="`asset-history-${key}`"
-          >
+          <li v-for="(market_data, key) in assetHistory.market_data" :key="`asset-history-${key}`">
             <div class="flex">
               <span class="w-28">Price: </span>
               <span>{{ market_data.price }}</span>
             </div>
 
             <div class="flex">
-              <span class=" text-sm w-28">Volume 24h: </span>
+              <span class="text-sm w-28">Volume 24h: </span>
               <span class="">{{ market_data.total_volume }}</span>
             </div>
-
           </li>
         </ul>
       </div>
@@ -100,18 +77,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
-import AssetHistoryForm from "@/components/asset/AssetHistoryForm.vue"
-import { Asset } from "@/types/models/Asset"
-import { AssetHistory } from "@/types/models/AssetHistory"
+import { ref } from 'vue'
+import AssetHistoryForm from '@/components/asset/AssetHistoryForm.vue'
+import { Asset } from '@/types/models/Asset'
+import { AssetHistory } from '@/types/models/AssetHistory'
 
 defineProps<{
-  selectedAsset: Asset | undefined
+  selectedAsset: Asset | undefined;
 }>()
 
 const emit = defineEmits<{
-  (e: "close"): void,
-  (e: "error", errors: unknown[]): void
+  (e: 'close'): void;
+  (e: 'error', errors: unknown[]): void;
 }>()
 
 const assetHistory = ref<AssetHistory>({} as AssetHistory)
@@ -120,9 +97,7 @@ const showAssetHistory = (history: AssetHistory) => {
   assetHistory.value = history
 }
 
-const close = () => emit("close")
+const close = () => emit('close')
 
-const error = (errors: unknown[]) => emit("error", errors)
-
+const error = (errors: unknown[]) => emit('error', errors)
 </script>
-

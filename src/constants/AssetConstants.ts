@@ -1,3 +1,3 @@
 export enum ASSET_CONFIG {
-  ITEMS_PER_PAGE = 20
+  ITEMS_PER_PAGE = 20,
 }
