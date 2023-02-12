@@ -34,7 +34,7 @@
                   </div>
                 </td>
                 <td
-                  class="flex flex-col text-start px-6 py-4 font-bold text-md lg:text-lg leading-5 whitespace-no-wrap"
+                  class="flex flex-col text-start py-4 font-bold w-12 text-md lg:text-lg leading-5 whitespace-no-wrap"
                 >
                   <span class="text-sm text-gray-400">24h</span>
                   <span
