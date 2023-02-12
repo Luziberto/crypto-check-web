@@ -32,55 +32,20 @@
           </svg>
         </button>
       </div>
-      <div class="flex items-center justify-center py-2 text-xl font-bold">
-        <AssetHistoryForm :asset="selectedAsset" @asset-history="showAssetHistory" @errors="error" />
-      </div>
-      <div class="hidden lg:block mt-4 shadow overflow-hidden sm:rounded-lg border-2 border-gray-300">
-        <table class="min-w-full">
-          <thead>
-            <tr class="border-b-2 border-gray-200">
-              <th class="px-6 py-3 text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">Price</th>
-              <th class="px-6 py-3 truncate text-xs leading-4 font-medium uppercase tracking-wider cursor-pointer">
-                Volume 24h
-              </th>
-            </tr>
-          </thead>
-          <tbody v-if="Object.keys(assetHistory).length" class="divide-y divide-gray-200">
-            <tr v-for="(market_data, key) in assetHistory.market_data" :key="`asset-history-${key}`">
-              <td class="text-center w-1/2 break-all px-1 py-4 text-sm leading-5">
-                {{ market_data.price }}
-              </td>
-              <td class="text-center px-6 break-all py-4 text-sm leading-5">
-                {{ market_data.total_volume }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="shadow lg:hidden">
-        <ul class="mt-2 overflow-hidden divide-y divide-gray-200 shadow lg:hidden">
-          <li v-for="(market_data, key) in assetHistory.market_data" :key="`asset-history-${key}`">
-            <div class="flex">
-              <span class="w-28">Price: </span>
-              <span>{{ market_data.price }}</span>
-            </div>
-
-            <div class="flex">
-              <span class="text-sm w-28">Volume 24h: </span>
-              <span class="">{{ market_data.total_volume }}</span>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <AssetMarketCharts
+        v-if="selectedAsset"
+        class="grid grid-cols-2 overflow-hidden"
+        :asset="selectedAsset"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import AssetHistoryForm from '@/components/asset/AssetHistoryForm.vue'
 import { Asset } from '@/types/models/Asset'
 import { AssetHistory } from '@/types/models/AssetHistory'
+import AssetMarketCharts from '@/components/asset/AssetMarketCharts.vue'
 
 defineProps<{
   selectedAsset: Asset | undefined

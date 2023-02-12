@@ -11,10 +11,18 @@ export interface Asset {
 interface MarketCap {
   brl: {
     current_price: string
-    market_90_days: string
+    market_90_days: {
+      market_caps: Array<number>
+      prices: Array<number>
+      total_volumes: Array<number>
+    }
   }
   usd: {
     current_price: string
-    market_90_days: string
+    market_90_days: {
+      market_caps: Array<number>
+      prices: Array<number>
+      total_volumes: Array<number>
+    }
   }
 }

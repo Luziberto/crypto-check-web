@@ -1,64 +1,38 @@
 <template>
   <Transition name="dropdown">
-    <div
-      v-show="active"
-      class="grid grid-cols-2"
-    >
-      <ul>
-        <li>price</li>
-        <li>
-          {{ latestAsset.market_cap[currency.FIAT_NAME].current_price }}
-        </li>
-      </ul>
-      <div class="bg-red-300" />
-    </div>
+    <AssetMarketCharts
+      v-if="active && latestAsset"
+      class="grid grid-cols-2 border-y border-gray-800 overflow-hidden"
+      :asset="latestAsset"
+      mode="mobile"
+    />
   </Transition>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Asset } from '@/types/models/Asset'
-import { storeToRefs } from 'pinia'
-import { useLocaleStore } from '@/store/locale'
-const localeStore = useLocaleStore()
-const { currency } = storeToRefs(localeStore)
+import AssetMarketCharts from '@/components/asset/AssetMarketCharts.vue'
 
 const active = ref(false)
 
-
-
-const latestAsset = ref({
-  uuid: '',
-  name: '',
-  slug: '',
-  symbol: '',
-  market_cap: {
-    brl: {
-      current_price: '',
-      market_90_days: '',
-    },
-    usd: {
-      current_price: '',
-      market_90_days: '',
-    },
-  },
-  price_change_percentage_24h: 0,
-  image: '',
-})
+const latestAsset = ref<Asset | null>(null)
 
 const toggle = (asset: Asset): Promise<void> => {
   return new Promise(resolve => {
-    if (latestAsset.value.uuid && latestAsset.value.uuid !== asset.uuid) {
+    if (latestAsset.value?.uuid && latestAsset.value.uuid !== asset.uuid) {
       active.value = !active.value
-      setTimeout(() => {
-        active.value = !active.value
-        resolve()
-      }, 300)
+      if (!active.value) {
+        setTimeout(() => {
+          active.value = !active.value
+          resolve()
+        }, 300)
+      }
     } else {
       active.value = !active.value
-      resolve()
     }
     latestAsset.value = asset
+    resolve()
   })
 }
 

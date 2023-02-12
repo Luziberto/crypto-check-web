@@ -79,7 +79,7 @@
             @click="dropdownToggle(asset)"
           >
             <div class="flex flex-col text-left">
-              <a href="#" class="block px-4 py-4 hover:bg-late-900">
+              <div class="block px-4 py-4 hover:bg-late-900">
                 <div class="flex space-x-4">
                   <img
                     class="w-12 h-12 rounded-full"
@@ -126,7 +126,7 @@
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </TransitionGroup>
@@ -157,24 +157,7 @@ import Pusher from 'pusher-js'
 const assets = reactive<Asset[]>([])
 const assetDropdownRef = ref<InstanceType<typeof AssetDropdown>>()
 
-const selectedAsset = ref<Asset>({
-  uuid: '',
-  name: '',
-  slug: '',
-  symbol: '',
-  market_cap: {
-    brl: {
-      current_price: '',
-      market_90_days: '',
-    },
-    usd: {
-      current_price: '',
-      market_90_days: '',
-    },
-  },
-  price_change_percentage_24h: 0,
-  image: '',
-})
+const selectedAsset = ref<Asset | null>()
 
 const localeStore = useLocaleStore()
 const { currency, translate } = storeToRefs(localeStore)

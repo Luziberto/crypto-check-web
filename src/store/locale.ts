@@ -4,27 +4,28 @@ import {
   Translate,
   getCurrency,
   getTranslate,
-  PT_BR,
+  PT_BR_LOCALE,
   PT_BR_CURRENCY,
   PT_BR_TRANSLATE,
+  Locale,
 } from '@/constants/LocaleConstants'
 
 interface State {
   currency: Currency
-  locale: string
+  locale: Locale
   translate: Translate
 }
 
 export const useLocaleStore = defineStore('locale', {
   state: (): State => ({
-    locale: PT_BR,
+    locale: PT_BR_LOCALE,
     currency: PT_BR_CURRENCY,
     translate: PT_BR_TRANSLATE,
   }),
   actions: {
-    changeLocale(locale: string, fiat: string) {
+    changeLocale(locale: Locale) {
       this.locale = locale
-      this.currency = getCurrency(fiat)
+      this.currency = getCurrency(locale)
       this.translate = getTranslate(locale)
     },
   },
