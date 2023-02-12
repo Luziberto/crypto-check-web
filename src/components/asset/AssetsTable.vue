@@ -6,7 +6,7 @@
       >
         <table class="hidden md:block min-w-full divide-y divide-gray-200">
           <thead class="min-w-full" />
-          <tbody class="grid lg:grid-cols-2">
+          <tbody class="grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
             <TransitionGroup name="list">
               <tr
                 v-for="asset in assets"
@@ -24,7 +24,7 @@
                       alt=""
                     />
                     <span
-                      class="px-2 w-18 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap crypto-name"
+                      class="truncate px-2 w-64 py-4 whitespace-nowrap font-bold text-md lg:text-lg leading-5 whitespace-no-wrap crypto-name"
                     >
                       {{ asset.name }}
                       <span class="text-sm text-gray-500">
@@ -90,7 +90,7 @@
                     <div class="flex flex-col text-md truncate">
                       <h2 class="flex flex-col truncate">
                         {{ asset.name }}
-                        <h3 class="text-sm text-gray-300">
+                        <h3 class="text-sm text-gray-500">
                           {{ asset.symbol.toUpperCase() }}
                         </h3>
                       </h2>

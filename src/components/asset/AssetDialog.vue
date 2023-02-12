@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 flex justify-center z-20">
     <div class="col-span-none transition-opacity">
-      <div class="absolute inset-0 bg-gray-500 opacity-75" />
+      <div class="absolute inset-0 bg-gray-500 opacity-75" @click="close" />
     </div>
     <div
       v-if="selectedAsset"
@@ -15,7 +15,10 @@
           </span>
         </div>
 
-        <button class="fill-current h-5 w-5 font-3xl font-bold" @click="close">
+        <button
+          class="fill-current h-5 w-5 font-3xl font-bold z-50"
+          @click="close"
+        >
           <span class="sr-only">Close</span>
           <svg
             class="h-5 w-5"
@@ -32,19 +35,13 @@
           </svg>
         </button>
       </div>
-      <AssetMarketCharts
-        v-if="selectedAsset"
-        class="grid grid-cols-2 overflow-hidden"
-        :asset="selectedAsset"
-      />
+      <AssetMarketCharts v-if="selectedAsset" class="" :asset="selectedAsset" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { Asset } from '@/types/models/Asset'
-import { AssetHistory } from '@/types/models/AssetHistory'
 import AssetMarketCharts from '@/components/asset/AssetMarketCharts.vue'
 
 defineProps<{
@@ -53,16 +50,7 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'error', errors: unknown[]): void
 }>()
 
-const assetHistory = ref<AssetHistory>({} as AssetHistory)
-
-const showAssetHistory = (history: AssetHistory) => {
-  assetHistory.value = history
-}
-
 const close = () => emit('close')
-
-const error = (errors: unknown[]) => emit('error', errors)
 </script>

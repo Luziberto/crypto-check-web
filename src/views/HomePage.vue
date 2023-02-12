@@ -1,14 +1,18 @@
 <template>
   <div class="flex flex-col">
     <Alert ref="alert" />
-    <nav class="fixed w-full flex flex-col md:flex-row justify-between border-b-2 border-gray-300 z-10">
+    <nav
+      class="fixed w-full flex flex-col md:flex-row justify-between border-b-2 border-gray-300 z-10"
+    >
       <div class="absolute right-2 md:left-10 -top-3">
         <DarkMode />
       </div>
       <div class="hidden md:block w-1/3">
         <!-- <DarkMode /> -->
       </div>
-      <div class="flex md:flex-col justify-around md:justify-center flex-items-center">
+      <div
+        class="flex md:flex-col justify-around md:justify-center flex-items-center"
+      >
         <div class="flex flex-items-center pt-3 md:pt-0">
           <a href="https://matias.ma/nsfw">
             <CoinSvg :width="32" />
@@ -16,24 +20,22 @@
           <h1 class="flex-1 font-bold text-xl">{{ translate.TITLE }}</h1>
         </div>
         <div class="md:hidden block md:w-1/3" />
-        <LocaleButton
-          :width="20"
-          class="hidden md:block"
-        />
+        <LocaleButton :width="20" class="hidden md:block" />
       </div>
 
-      <div class="flex overflow-clip md:w-1/3 justify-around md:justify-end items-center m-2">
-        <div class="">
-          <label
-            for="search"
-            class="text-left font-bold text-sm md:text-md"
-          >{{ translate.SEARCH }}</label>
+      <div
+        class="flex overflow-clip md:w-1/3 justify-around md:justify-end items-center m-2"
+      >
+        <div class="flex flex-col mr-1">
+          <label for="search" class="text-left font-bold text-sm md:text-md">{{
+            translate.SEARCH
+          }}</label>
           <input
             v-model="search"
             name="search"
             type="text"
             autocomplete="off"
-            class="block w-full py-1 pl-2 pr-10 mt-1 text-sm bg-gray-300 font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
+            class="block w-full py-1 my-1 mr-1 pl-2 text-sm bg-gray-300 font-bold placeholder-gray-400 transition duration-150 ease-in-ou border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-black focus:border-b border-whitelack ring-2"
           />
         </div>
         <div class="md:hidden mt-auto pb-1">

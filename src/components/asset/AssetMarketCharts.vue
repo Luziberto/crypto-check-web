@@ -2,7 +2,20 @@
   <div>
     <AssetLineChart
       v-if="asset"
-      class="border-r md:border-r-0 border-b md:border-b-0 border-gray-800 pr-1 -mt-8"
+      :data="asset.market_cap[currency.FIAT_NAME].market_90_days?.prices"
+      class="-mt-8 border-b md:border-b-0 border-gray-800 max-h-56"
+      :title="translate.PRICE"
+      :labels="dateInterval"
+      :color="
+        asset.price_change_percentage_24h < 0
+          ? colors.decrease
+          : colors.increase
+      "
+      :mode="mode"
+    />
+    <AssetLineChart
+      v-if="asset"
+      class="border-r md:border-r-0 border-b md:border-b-0 border-gray-800 pr-1 -mt-8 max-h-56"
       :data="asset.market_cap[currency.FIAT_NAME].market_90_days?.market_caps"
       :title="translate.MARKET_CAP"
       :labels="dateInterval"
@@ -15,20 +28,7 @@
     />
     <AssetLineChart
       v-if="asset"
-      :data="asset.market_cap[currency.FIAT_NAME].market_90_days?.prices"
-      class="-mt-8 border-b md:border-b-0 border-gray-800"
-      :title="translate.PRICE"
-      :labels="dateInterval"
-      :color="
-        asset.price_change_percentage_24h < 0
-          ? colors.decrease
-          : colors.increase
-      "
-      :mode="mode"
-    />
-    <AssetLineChart
-      v-if="asset"
-      class="col-span-2 h-56 -mt-8"
+      class="col-span-2 h-56 -mt-8 max-h-56"
       :data="asset.market_cap[currency.FIAT_NAME].market_90_days?.total_volumes"
       :title="translate.TOTAL_VOLUME"
       :labels="dateInterval"

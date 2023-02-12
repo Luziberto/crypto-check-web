@@ -2,7 +2,7 @@
   <Transition name="dropdown">
     <AssetMarketCharts
       v-if="active && latestAsset"
-      class="grid grid-cols-2 border-y border-gray-800 overflow-hidden"
+      class="border-y border-gray-800 overflow-hidden"
       :asset="latestAsset"
       mode="mobile"
     />

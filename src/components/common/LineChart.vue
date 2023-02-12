@@ -29,6 +29,10 @@ Chart.register(...registerables)
 
 const options = ref<ChartOptions<'line'>>({
   responsive: true,
+  interaction: {
+    mode: 'nearest',
+    intersect: false,
+  },
   plugins: {
     title: {
       display: true,
@@ -45,7 +49,7 @@ const options = ref<ChartOptions<'line'>>({
               ? CHART_CONFIG.TYCK_FONT_SIZE_MOBILE
               : CHART_CONFIG.TYCK_FONT_SIZE_PC,
         },
-        callback: function (value, index, labels) {
+        callback: function (value) {
           if (!Number.isNaN(value) || props.mode === 'mobile') {
             let label = ''
             let param = Number(value)
@@ -73,9 +77,7 @@ const chartData = computed<ChartData<'line'>>(() => {
         borderColor: props.color,
         borderWidth: 1,
         pointRadius:
-          props.mode === 'mobile'
-            ? CHART_CONFIG.POINT_RADIUS_SIZE_MOBILE
-            : CHART_CONFIG.POINT_RADIUS_SIZE_PC,
+          props.mode === 'mobile' ? 1.5 : CHART_CONFIG.POINT_RADIUS_SIZE_PC,
       },
     ],
   }
