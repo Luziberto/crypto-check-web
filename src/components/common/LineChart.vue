@@ -38,6 +38,20 @@ const options = ref<ChartOptions<'line'>>({
       display: true,
       // text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
     },
+    tooltip: {
+      callbacks: {
+        label: function (context) {
+          let label = context.dataset.label || ''
+          if (label) {
+            label += ': '
+          }
+          if (context.parsed.y !== null) {
+            label += context.parsed.y
+          }
+          return label
+        },
+      },
+    },
   },
   scales: {
     y: {
@@ -48,18 +62,6 @@ const options = ref<ChartOptions<'line'>>({
             props.mode === 'mobile'
               ? CHART_CONFIG.TYCK_FONT_SIZE_MOBILE
               : CHART_CONFIG.TYCK_FONT_SIZE_PC,
-        },
-        callback: function (value) {
-          if (!Number.isNaN(value) || props.mode === 'mobile') {
-            let label = ''
-            let param = Number(value)
-            while (param > 1000) {
-              label += 'k'
-              param /= 1000
-            }
-            return `${param} ${label}`
-          }
-          return value
         },
       },
     },
