@@ -11,7 +11,7 @@ import { CHART_CONFIG } from '@/constants/ChartConstants'
 type Mode = 'pc' | 'mobile'
 const props = withDefaults(
   defineProps<{
-    data: Array<number>
+    data: Array<number | null>
     color: string
     title: string
     labels: Array<string>
