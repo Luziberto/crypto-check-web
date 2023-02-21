@@ -3,6 +3,8 @@
 
 This is the project for the `Crypto check` website.
 
+ <a href="https://cryptocheck.luzibertomendes.dev.br">Live Demo</a>
+ 
 ## Requirements
 
 - :rocket: `Node 16.x.x`
